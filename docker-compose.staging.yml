@@ -1,6 +1,6 @@
 services:
   stacktastic-staging:
-    image: stacktastic-staging:<sha>
+    image: stacktastic-staging:${IMAGE_TAG}
     environment:
       - NODE_ENV=production
     labels:

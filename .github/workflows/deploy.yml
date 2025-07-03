@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE: stacktastic-${{ github.ref_name }}:${{ github.sha }}
+      IMAGE_TAG: ${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,10 +20,10 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --pull -t $DOCKER_IMAGE .
-          docker save $DOCKER_IMAGE | gzip > image.tar.gz
+          docker build --pull -t stacktastic-main:${{ github.sha }} .
+          docker save stacktastic-main:${{ github.sha }} | gzip > image.tar.gz
 
-      - name: Copy image and compose template to server
+      - name: Copy image and docker-compose to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -31,8 +31,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: |
             image.tar.gz
-            docker-compose.${{ github.ref_name }}.yml.template
-          target: "~/stacktastic/${{ github.ref_name }}/"
+            docker-compose.main.yml
+          target: ~/stacktastic/main/
 
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.0
@@ -42,9 +42,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd ~/stacktastic/${{ github.ref_name }}
+            cd ~/stacktastic/main
             gunzip -f image.tar.gz
             docker load < image.tar
-            sed "s|__IMAGE_TAG__|${{ github.sha }}|g" docker-compose.${{ github.ref_name }}.yml.template > docker-compose.${{ github.ref_name }}.yml
-            docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
+            IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.main.yml up -d --force-recreate
             rm -f image.tar
