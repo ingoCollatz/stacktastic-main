@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   stacktastic-staging:
     image: stacktastic-main
@@ -14,5 +12,5 @@ services:
       - web
 
 networks:
-  traefik:
+  web:
     external: true
