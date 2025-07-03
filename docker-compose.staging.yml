@@ -6,7 +6,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.stacktastic-staging.rule=Host(`staging.stacktastic.dev`)"
-      - "traefik.http.routers.stacktastic-staging.entrypoints=web"
+      - "traefik.http.routers.stacktastic-staging.entrypoints=websecure"
+      - "traefik.http.routers.stacktastic-staging.tls.certresolver=myresolver"
       - "traefik.http.services.stacktastic-staging.loadbalancer.server.port=3000"
     networks:
       - web
