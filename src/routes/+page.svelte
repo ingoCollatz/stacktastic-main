@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+  // you can add logic, countdown, etc
+</script>
+
+<main
+  style="display: flex; justify-content: center; align-items: center; height: 100vh;"
+>
+  <h1>🚧 Under Construction 🚧</h1>
+</main>
