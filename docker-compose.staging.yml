@@ -1,18 +1,17 @@
-version: "3.9"
-
 services:
   stacktastic-staging:
-    image: stacktastic-main
+    image: stacktastic-staging:${IMAGE_TAG}
     environment:
       - NODE_ENV=production
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.stacktastic-staging.rule=Host(`staging.stacktastic.dev`)"
-      - "traefik.http.routers.stacktastic-staging.entrypoints=web"
+      - "traefik.http.routers.stacktastic-staging.entrypoints=websecure"
+      - "traefik.http.routers.stacktastic-staging.tls.certresolver=myresolver"
       - "traefik.http.services.stacktastic-staging.loadbalancer.server.port=3000"
     networks:
       - web
 
 networks:
-  traefik:
+  web:
     external: true
