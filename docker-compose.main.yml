@@ -2,9 +2,7 @@ version: "3.9"
 
 services:
   stacktastic-main:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: stacktastic-main
     environment:
       - NODE_ENV=production
     labels:
@@ -12,3 +10,9 @@ services:
       - "traefik.http.routers.stacktastic-main.rule=Host(`stacktastic.dev`)"
       - "traefik.http.routers.stacktastic-main.entrypoints=web"
       - "traefik.http.services.stacktastic-main.loadbalancer.server.port=3000"
+    networks:
+      - web
+
+networks:
+  traefik:
+    external: true
