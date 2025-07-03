@@ -1,6 +1,6 @@
 services:
   stacktastic-staging:
-    image: stacktastic-main
+    image: stacktastic-main:local
     environment:
       - NODE_ENV=production
     labels:
