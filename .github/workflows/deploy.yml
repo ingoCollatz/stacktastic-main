@@ -52,5 +52,5 @@ jobs:
             cd ~/stacktastic/${{ github.ref_name }}
             gunzip -f image.tar.gz
             docker load < image.tar
-            docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d
+            docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
             rm -f image.tar
