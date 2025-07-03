@@ -3,16 +3,15 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy dependency manifests
+RUN corepack enable && corepack prepare yarn@3.6.0 --activate
+
 COPY package.json yarn.lock ./
 
-# Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy the rest of the app
 COPY . .
 
-# Build the app
+RUN rm -rf .svelte-kit build # Ensure no stale output
 RUN yarn build
 
 # --- Production stage ---
