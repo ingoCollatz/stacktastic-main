@@ -1,11 +1,11 @@
 services:
   stacktastic-staging:
-    image: stacktastic-main:local
+    image: stacktastic-staging:<sha>
     environment:
       - NODE_ENV=production
     labels:
       - "traefik.enable=true"
-      - 'traefik.http.routers.stacktastic-main.rule=Host("staging.stacktastic.dev")'
+      - "traefik.http.routers.stacktastic-staging.rule=Host(`staging.stacktastic.dev`)"
       - "traefik.http.routers.stacktastic-staging.entrypoints=websecure"
       - "traefik.http.routers.stacktastic-staging.tls.certresolver=myresolver"
       - "traefik.http.services.stacktastic-staging.loadbalancer.server.port=3000"

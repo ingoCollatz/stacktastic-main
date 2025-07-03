@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE: stacktastic-main:local
+      DOCKER_IMAGE: stacktastic-${{ github.ref_name }}:${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
