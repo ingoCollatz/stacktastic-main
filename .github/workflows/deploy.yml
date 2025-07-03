@@ -23,22 +23,15 @@ jobs:
           docker build --pull -t $DOCKER_IMAGE .
           docker save $DOCKER_IMAGE | gzip > image.tar.gz
 
-      - name: Copy image to server
+      - name: Copy image and compose template to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "image.tar.gz"
-          target: "~/stacktastic/${{ github.ref_name }}/"
-
-      - name: Copy docker-compose file to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "docker-compose.${{ github.ref_name }}.yml"
+          source: |
+            image.tar.gz
+            docker-compose.${{ github.ref_name }}.yml.template
           target: "~/stacktastic/${{ github.ref_name }}/"
 
       - name: SSH and deploy
@@ -52,5 +45,6 @@ jobs:
             cd ~/stacktastic/${{ github.ref_name }}
             gunzip -f image.tar.gz
             docker load < image.tar
+            sed "s|__IMAGE_TAG__|${{ github.sha }}|g" docker-compose.${{ github.ref_name }}.yml.template > docker-compose.${{ github.ref_name }}.yml
             docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
             rm -f image.tar

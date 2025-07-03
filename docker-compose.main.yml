@@ -1,14 +1,14 @@
 services:
-  stacktastic-main:
-    image: stacktastic-main:<sha>
+  stacktastic-staging:
+    image: stacktastic-staging:__IMAGE_TAG__
     environment:
       - NODE_ENV=production
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.stacktastic-main.rule=Host(`stacktastic.dev`)"
-      - "traefik.http.routers.stacktastic-main.entrypoints=websecure"
-      - "traefik.http.routers.stacktastic-main.tls.certresolver=myresolver"
-      - "traefik.http.services.stacktastic-main.loadbalancer.server.port=3000"
+      - "traefik.http.routers.stacktastic-staging.rule=Host(`staging.stacktastic.dev`)"
+      - "traefik.http.routers.stacktastic-staging.entrypoints=websecure"
+      - "traefik.http.routers.stacktastic-staging.tls.certresolver=myresolver"
+      - "traefik.http.services.stacktastic-staging.loadbalancer.server.port=3000"
     networks:
       - web
 
