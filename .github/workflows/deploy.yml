@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "image.tar.gz"
-          target: "~/stacktastic/${{ github.ref_name }}/image.tar.gz"
+          target: "~/stacktastic/${{ github.ref_name }}/"
 
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.0
