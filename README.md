@@ -27,8 +27,8 @@ A modern web application designed for rapid development, easy deployment, and ma
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url>
-   cd stacktastic-main-clean2
+   git clone https://github.com/ingoCollatz/stacktastic-main.git
+   cd stacktastic-main
    ```
 2. Install dependencies (choose one):
    ```bash
@@ -121,4 +121,4 @@ stacktastic-main-clean2/
 
 ## License
 
-[MIT](LICENSE)
+MIT
