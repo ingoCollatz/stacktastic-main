@@ -2,9 +2,8 @@
 
 A modern web application designed for rapid development, easy deployment, and maintainable code.
 
-
-
 ## Tech Stack
+
 - **SvelteKit** for fast, reactive web UI
 - **Tailwind CSS** for utility-first styling
 - **TypeScript** for type safety and better developer experience
@@ -19,11 +18,13 @@ A modern web application designed for rapid development, easy deployment, and ma
 ## Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v16+ recommended)
 - [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/)
 - [Docker](https://www.docker.com/) (optional, for containerized workflows)
 
 ### Installation
+
 1. Clone the repository:
    ```bash
    git clone <repo-url>
@@ -37,7 +38,9 @@ A modern web application designed for rapid development, easy deployment, and ma
    ```
 
 ### Development
+
 To start the development server with hot reloading:
+
 ```bash
 npm run dev
 # or
@@ -47,7 +50,9 @@ yarn dev
 Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
 
 ### Linting
+
 To check code quality with ESLint:
+
 ```bash
 npm run lint
 # or
@@ -55,7 +60,9 @@ yarn lint
 ```
 
 ### Building for Production
+
 To build the app for production:
+
 ```bash
 npm run build
 # or
@@ -63,20 +70,26 @@ yarn build
 ```
 
 ### Running with Docker
+
 Build and run the app using Docker:
+
 ```bash
 docker build -t stacktastic .
 docker run -p 3000:3000 stacktastic
 ```
+
 Or use docker-compose for multi-service setups:
+
 ```bash
 docker-compose -f docker-compose.main.yml up --build
 ```
 
 ### Deployment
+
 Automated deployment is configured via GitHub Actions (`.github/workflows/deploy.yml`).
 
 ### Configuration
+
 - Tailwind: `tailwind.config.js`
 - SvelteKit: `svelte.config.js`
 - Vite: `vite.config.ts`
@@ -85,6 +98,7 @@ Automated deployment is configured via GitHub Actions (`.github/workflows/deploy
 - Docker: `Dockerfile`, `docker-compose.*.yml`
 
 ## Project Structure
+
 ```
 stacktastic-main-clean2/
 ├── src/
@@ -106,4 +120,5 @@ stacktastic-main-clean2/
 ```
 
 ## License
+
 [MIT](LICENSE)
