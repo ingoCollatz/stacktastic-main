@@ -1,9 +1,12 @@
 <script>
-  // you can add logic, countdown, etc
+  import Layout from "$lib/components/Layout.svelte";
+  import Hero from "$lib/components/Hero.svelte";
+  import Features from "$lib/components/Features.svelte";
+  import CallToAction from "$lib/components/CallToAction.svelte";
 </script>
 
-<main
-  style="display: flex; justify-content: center; align-items: center; height: 100vh;"
->
-  <h1>🚧 Under Construction 🚧</h1>
-</main>
+<Layout>
+  <Hero />
+  <Features />
+  <CallToAction />
+</Layout>
