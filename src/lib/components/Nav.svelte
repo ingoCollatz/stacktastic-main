@@ -20,7 +20,9 @@
 >
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <Logo size={40} color="black" />
+    <a href="/" class="flex items-center gap-2" aria-label="Go to homepage">
+      <Logo size={40} color="black" />
+    </a>
 
     <!-- Desktop Nav -->
     <ul class="hidden md:flex gap-6 text-sm font-medium">
