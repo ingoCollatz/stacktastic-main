@@ -5,7 +5,7 @@ services:
       - NODE_ENV=production
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.stacktastic-main.rule=Host(`stacktastic.dev`)"
+      - "traefik.http.routers.stacktastic-main.rule=Host(`stacktastic.dev`, `www.stacktastic.dev`)"
       - "traefik.http.routers.stacktastic-main.entrypoints=websecure"
       - "traefik.http.routers.stacktastic-main.tls.certresolver=myresolver"
       - "traefik.http.services.stacktastic-main.loadbalancer.server.port=3000"
