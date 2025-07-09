@@ -363,6 +363,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify/svelte@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@iconify/svelte@npm:5.0.0"
+  dependencies:
+    "@iconify/types": ^2.0.0
+  peerDependencies:
+    svelte: ">4.0.0"
+  checksum: 75a302b9bc93511758673c5b9c693d23b65deee7395e86746a6291a5637b06fbc5eec56a99afaabea30c88a018fb6dd506c937fd31d2968dfa6a59a0970c26e5
+  languageName: node
+  linkType: hard
+
+"@iconify/types@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@iconify/types@npm:2.0.0"
+  checksum: 029f58542c160e9d4a746869cf2e475b603424d3adf3994c5cc8d0406c47e6e04a3b898b2707840c1c5b9bd5563a1660a34b110d89fce43923baca5222f4e597
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -3186,6 +3204,7 @@ __metadata:
   dependencies:
     "@eslint/compat": ^1.2.5
     "@eslint/js": ^9.18.0
+    "@iconify/svelte": ^5.0.0
     "@sveltejs/adapter-auto": ^6.0.0
     "@sveltejs/adapter-node": ^5.2.12
     "@sveltejs/kit": ^2.16.0
