@@ -2,7 +2,7 @@
   // You can later make parts of this dynamic if needed
 </script>
 
-<section id="about" class="py-20 bg-white text-brand-dark">
+<section id="about" class="py-20 bg-gray-100 text-brand-dark">
   <div class="max-w-4xl mx-auto px-4 text-center">
     <h2 class="text-3xl font-bold mb-6">About Me</h2>
     <p class="text-lg leading-relaxed">

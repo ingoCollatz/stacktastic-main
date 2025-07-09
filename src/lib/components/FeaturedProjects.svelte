@@ -21,7 +21,7 @@
   ];
 </script>
 
-<section id="projects" class="bg-white py-16 px-4">
+<section id="projects" class="bg-gray-100 py-16 px-4">
   <div class="max-w-7xl mx-auto">
     <h2 class="text-3xl font-bold mb-8">Featured Projects</h2>
 
@@ -29,7 +29,7 @@
       {#each projects as project}
         <a
           href={project.link}
-          class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 block"
+          class="border rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 block"
         >
           <h3 class="text-xl font-semibold mb-2">{project.title}</h3>
           <p class="text-sm text-gray-700">{project.description}</p>

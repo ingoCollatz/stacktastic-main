@@ -1,4 +1,4 @@
-<section class="bg-gray-100 text-black py-24 md:py-32">
+<section class=" text-black py-24 md:py-32">
   <div class="max-w-4xl mx-auto text-center px-6">
     <h1 class="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
       Hi, I'm Ingo — Web Developer & Technologist

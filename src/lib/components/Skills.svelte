@@ -13,7 +13,7 @@
   ];
 </script>
 
-<section id="skills" class="py-20 bg-gray-100 text-black">
+<section id="skills" class="py-20 text-black">
   <div class="max-w-6xl mx-auto px-4">
     <h2 class="text-3xl font-bold text-center mb-10">My Toolbox</h2>
     <div
