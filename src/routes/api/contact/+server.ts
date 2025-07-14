@@ -1,18 +1,18 @@
-// src/routes/api/contact/+server.ts
-
 import type { RequestHandler } from "@sveltejs/kit";
 import nodemailer from "nodemailer";
 import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
-import {
-  CONTACT_RECEIVER,
-  MAIL_HOST,
-  MAIL_PORT,
-  MAIL_SECURE,
-  MAIL_USER,
-  API_KEY_FRIENDLY_CAPTCHA,
-  FRIENDLY_CAPTCHA_SECRET,
-  MAIL_PASS,
-} from "$env/static/private";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const CONTACT_RECEIVER = process.env.CONTACT_RECEIVER!;
+const MAIL_HOST = process.env.MAIL_HOST!;
+const MAIL_PORT = process.env.MAIL_PORT!;
+const MAIL_SECURE = process.env.MAIL_SECURE!;
+const MAIL_USER = process.env.MAIL_USER!;
+const MAIL_PASS = process.env.MAIL_PASS!;
+const API_KEY_FRIENDLY_CAPTCHA = process.env.API_KEY_FRIENDLY_CAPTCHA!;
+const FRIENDLY_CAPTCHA_SECRET = process.env.FRIENDLY_CAPTCHA_SECRET!;
 
 export const POST: RequestHandler = async ({ request }) => {
   const data = await request.formData();
@@ -21,20 +21,10 @@ export const POST: RequestHandler = async ({ request }) => {
   const message = data.get("message")?.toString();
   const captchaSolution = data.get("frc-captcha-solution")?.toString();
 
-  console.log("env:", {
-    CONTACT_RECEIVER,
-    MAIL_HOST,
-    MAIL_PORT,
-    MAIL_SECURE,
-    MAIL_USER,
-    API_KEY_FRIENDLY_CAPTCHA,
-    FRIENDLY_CAPTCHA_SECRET,
-  });
-
   if (!name || !email || !message) {
     return new Response(
       JSON.stringify({ error: "Please fill in all fields." }),
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -44,7 +34,6 @@ export const POST: RequestHandler = async ({ request }) => {
     });
   }
 
-  // ✅ Verify CAPTCHA
   try {
     const friendlyCaptcha = new FriendlyCaptchaClient({
       apiKey: API_KEY_FRIENDLY_CAPTCHA,
@@ -58,18 +47,17 @@ export const POST: RequestHandler = async ({ request }) => {
       console.error("CAPTCHA verification failed:", verificationResult);
       return new Response(
         JSON.stringify({ error: "CAPTCHA validation failed." }),
-        { status: 400 },
+        { status: 400 }
       );
     }
   } catch (error) {
     console.error("Error verifying CAPTCHA:", error);
     return new Response(
       JSON.stringify({ error: "CAPTCHA validation error." }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 
-  // ✅ Send email
   try {
     const transporter = nodemailer.createTransport({
       host: MAIL_HOST,
@@ -93,7 +81,7 @@ export const POST: RequestHandler = async ({ request }) => {
     console.error("Email send error:", err);
     return new Response(
       JSON.stringify({ error: "Something went wrong sending your message." }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 };

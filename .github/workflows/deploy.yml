@@ -45,7 +45,6 @@ jobs:
             gunzip -f image.tar.gz
             docker load < image.tar
 
-            DATABASE_URL=${{ secrets.DATABASE_URL }} \
             API_KEY=${{ secrets.API_KEY }} \
             CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
             MAIL_HOST=${{ secrets.MAIL_HOST }} \

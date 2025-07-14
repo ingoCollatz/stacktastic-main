@@ -1492,6 +1492,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^17.2.0":
+  version: 17.2.0
+  resolution: "dotenv@npm:17.2.0"
+  checksum: 389d25dac7afeb1890bcd113c84d8d8175e95967559e90b8a6c8dc19bfc81ad3ede0036873c459cd8de1f90055a88232ddf74c550bcd2ea7a94b8d570f116470
+  languageName: node
+  linkType: hard
+
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -3254,6 +3261,7 @@ __metadata:
     "@tailwindcss/typography": ^0.5.15
     "@tailwindcss/vite": ^4.0.0
     "@types/nodemailer": ^6.4.17
+    dotenv: ^17.2.0
     eslint: ^9.18.0
     eslint-config-prettier: ^10.0.1
     eslint-plugin-svelte: ^3.0.0
