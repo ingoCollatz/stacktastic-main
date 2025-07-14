@@ -6,8 +6,6 @@
   import FeaturedProjects from "$lib/components/FeaturedProjects.svelte";
   import About from "$lib/components/About.svelte";
   import ContactForm from "$lib/components/ContactForm.svelte";
-
-  export let form;
 </script>
 
 <Layout>
@@ -16,5 +14,5 @@
   <Skills />
   <FeaturedProjects />
   <CallToAction />
-  <ContactForm {form} />
+  <ContactForm />
 </Layout>

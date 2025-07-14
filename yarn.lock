@@ -325,6 +325,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@friendlycaptcha/sdk@npm:^0.1.26":
+  version: 0.1.26
+  resolution: "@friendlycaptcha/sdk@npm:0.1.26"
+  checksum: 9fc995794f170987e79993f729ab1c04518c4c94dd7643bdf2a7637c35044acacb6e511d89aea579416e4f457dc5ca09e3e9edf48e4254e93f5845cf86b4a38d
+  languageName: node
+  linkType: hard
+
+"@friendlycaptcha/server-sdk@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@friendlycaptcha/server-sdk@npm:0.1.2"
+  checksum: 9a46e8b71065534495a66b0d2e4c7ff3a5fa36920d5be0d3f11668e72153af079cc5401dffe97283256f4f002b17ed31ed5a80ee54ccabd12e1c5a36362d6da6
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -3229,6 +3243,8 @@ __metadata:
   dependencies:
     "@eslint/compat": ^1.2.5
     "@eslint/js": ^9.18.0
+    "@friendlycaptcha/sdk": ^0.1.26
+    "@friendlycaptcha/server-sdk": ^0.1.2
     "@iconify/svelte": ^5.0.0
     "@sveltejs/adapter-auto": ^6.0.0
     "@sveltejs/adapter-node": ^5.2.12
