@@ -6,13 +6,12 @@ A modern web application designed for rapid development, easy deployment, and ma
 
 Stacktastic is a personal portfolio site and project showcase built with SvelteKit, TypeScript, and Tailwind — containerized with Docker and deployed using Traefik on a Hetzner server.
 
-
 ## Getting Started
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16+ recommended)
-- [Yarn](https://yarnpkg.com/) 
+- [Yarn](https://yarnpkg.com/)
 - [Docker](https://www.docker.com/) (optional, for containerized workflows)
 
 ### Installation
@@ -68,14 +67,12 @@ Or use docker-compose for multi-service setups:
 docker-compose -f docker-compose.main.yml up --build
 ```
 
-> Note: The provided docker-compose.*.yml files are designed for use with a [Traefik](https://traefik.io/) reverse proxy setup.
-They support automatic HTTPS and domain routing.
+> Note: The provided docker-compose.\*.yml files are designed for use with a [Traefik](https://traefik.io/) reverse proxy setup.
+> They support automatic HTTPS and domain routing.
 
 ### Deployment
 
 Automated deployment is configured via GitHub Actions (`.github/workflows/deploy.yml`).
-
-
 
 ## License
 
