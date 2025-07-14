@@ -4,6 +4,8 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare yarn@3.6.0 --activate
 
+RUN rm -rf node_modules
+
 COPY package.json yarn.lock ./
 
 RUN yarn install 
