@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_TAG: ${{ github.sha }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,14 +21,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --pull \
-            --build-arg CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
-            --build-arg MAIL_HOST=${{ secrets.MAIL_HOST }} \
-            --build-arg MAIL_PORT=${{ secrets.MAIL_PORT }} \
-            --build-arg MAIL_USER=${{ secrets.MAIL_USER }} \
-            --build-arg MAIL_PASS=${{ secrets.MAIL_PASS }} \
-            --build-arg FRIENDLY_CAPTCHA_SECRET=${{ secrets.FRIENDLY_CAPTCHA_SECRET }} \
-            -t stacktastic-${{ github.ref_name }}:${{ github.sha }} .
+          docker build --pull -t stacktastic-${{ github.ref_name }}:${{ github.sha }} .
           docker save stacktastic-${{ github.ref_name }}:${{ github.sha }} | gzip > image.tar.gz
 
       - name: Copy image and docker-compose to server
@@ -53,6 +47,11 @@ jobs:
 
             DATABASE_URL=${{ secrets.DATABASE_URL }} \
             API_KEY=${{ secrets.API_KEY }} \
+            CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
+            MAIL_HOST=${{ secrets.MAIL_HOST }} \
+            MAIL_PORT=${{ secrets.MAIL_PORT }} \
+            MAIL_USER=${{ secrets.MAIL_USER }} \
+            MAIL_PASS=${{ secrets.MAIL_PASS }} \
             FRIENDLY_CAPTCHA_SECRET=${{ secrets.FRIENDLY_CAPTCHA_SECRET }} \
             IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
 

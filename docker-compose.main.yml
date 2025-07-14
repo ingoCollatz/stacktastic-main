@@ -3,6 +3,12 @@ services:
     image: stacktastic-main:${IMAGE_TAG}
     environment:
       - NODE_ENV=production
+      - CONTACT_RECEIVER=${CONTACT_RECEIVER}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - FRIENDLY_CAPTCHA_SECRET=${FRIENDLY_CAPTCHA_SECRET}
     labels:
       - "traefik.enable=true"
 
