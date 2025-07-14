@@ -43,5 +43,10 @@ jobs:
             cd ~/stacktastic/${{ github.ref_name }}
             gunzip -f image.tar.gz
             docker load < image.tar
+
+            DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            API_KEY=${{ secrets.API_KEY }} \
+            FRIENDLY_CAPTCHA_SECRET=${{ secrets.FRIENDLY_CAPTCHA_SECRET }} \
             IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
+
             rm -f image.tar
