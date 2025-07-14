@@ -20,7 +20,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --pull -t stacktastic-${{ github.ref_name }}:${{ github.sha }} .
+          docker build --pull \
+            --build-arg CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
+            --build-arg MAIL_HOST=${{ secrets.MAIL_HOST }} \
+            --build-arg MAIL_PORT=${{ secrets.MAIL_PORT }} \
+            --build-arg MAIL_USER=${{ secrets.MAIL_USER }} \
+            --build-arg MAIL_PASS=${{ secrets.MAIL_PASS }} \
+            --build-arg FRIENDLY_CAPTCHA_SECRET=${{ secrets.FRIENDLY_CAPTCHA_SECRET }} \
+            -t stacktastic-${{ github.ref_name }}:${{ github.sha }} .
           docker save stacktastic-${{ github.ref_name }}:${{ github.sha }} | gzip > image.tar.gz
 
       - name: Copy image and docker-compose to server
