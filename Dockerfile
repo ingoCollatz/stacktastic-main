@@ -2,15 +2,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-RUN corepack enable && corepack prepare yarn@3.6.0 --activate
+COPY package*.json ./
+
+RUN npm ci
 
 COPY . .
 
-RUN rm -rf node_modules && yarn install --frozen-lockfile
-
-RUN node -r ./.pnp.cjs -e "require('nodemailer'); console.log('✅ Nodemailer is installed and can be required.')"
-
-RUN yarn build
+RUN npm run build
 
 EXPOSE 3000
 
