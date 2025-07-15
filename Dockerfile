@@ -1,11 +1,11 @@
 # Stage 1: Build
-FROM node:20-alpine AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
 
-# install all dependencies (including devDependencies) for build
+# Install all dependencies (including devDependencies) for build
 RUN npm ci
 
 COPY . .
@@ -13,16 +13,16 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production image
-FROM node:20-alpine
+FROM node:20
 
 WORKDIR /app
 
 COPY package*.json ./
 
-# install only production dependencies
+# Install only production dependencies
 RUN npm ci --production
 
-# copy build output and static assets from builder
+# Copy build output and static assets from builder
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/static ./static
 
