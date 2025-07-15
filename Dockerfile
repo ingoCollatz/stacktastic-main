@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Install all dependencies (including devDependencies) for build
 RUN npm ci
 
 COPY . .
@@ -19,15 +18,12 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Install only production dependencies
 RUN npm ci --production
 
-# Copy build output and static assets from builder
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/static ./static
+COPY --from=builder /app/.svelte-kit/output ./build
 
 EXPOSE 3000
 
 ENV NODE_ENV=production
 
-CMD ["node", "build/index.js"]
+CMD ["node", "build/server/index.js"]
