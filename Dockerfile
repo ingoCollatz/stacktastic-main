@@ -8,7 +8,7 @@ COPY . .
 
 RUN rm -rf node_modules && yarn install --frozen-lockfile
 
-RUN node -e "require('nodemailer'); console.log('✅ Nodemailer is installed and can be required.')"
+RUN node -r ./.pnp.cjs -e "require('nodemailer'); console.log('✅ Nodemailer is installed and can be required.')"
 
 RUN yarn build
 
