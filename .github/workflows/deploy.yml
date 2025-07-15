@@ -45,7 +45,7 @@ jobs:
             gunzip -f image.tar.gz
             docker load < image.tar
 
-            API_KEY=${{ secrets.API_KEY_FRIENDLY_CAPTCHA }} \
+            API_KEY_FRIENDLY_CAPTCHA=${{ secrets.API_KEY_FRIENDLY_CAPTCHA }} \
             CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
             MAIL_HOST=${{ secrets.MAIL_HOST }} \
             MAIL_PORT=${{ secrets.MAIL_PORT }} \
