@@ -10,6 +10,7 @@ services:
       - MAIL_PASS=${MAIL_PASS}
       - FRIENDLY_CAPTCHA_SECRET=${FRIENDLY_CAPTCHA_SECRET}
       - API_KEY_FRIENDLY_CAPTCHA=${API_KEY_FRIENDLY_CAPTCHA}
+      - CAPTCHA_SECRET=${CAPTCHA_SECRET}
     labels:
       - "traefik.enable=true"
 
