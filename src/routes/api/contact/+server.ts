@@ -10,14 +10,13 @@ const MAIL_PORT = process.env.MAIL_PORT!;
 const MAIL_SECURE = process.env.MAIL_SECURE!;
 const MAIL_USER = process.env.MAIL_USER!;
 const MAIL_PASS = process.env.MAIL_PASS!;
-const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET!;
 
 
 interface CaptchaVerificationResponse {
   success: boolean;
-  challenge_ts?: string;  // timestamp of the challenge
-  hostname?: string;      // hostname where CAPTCHA was solved
-  [key: string]: unknown; // allow extra unknown fields
+  challenge_ts?: string;
+  hostname?: string;
+  [key: string]: unknown;
 }
 
 
@@ -26,6 +25,7 @@ async function verifyCaptcha(
   secret: string,
   token: string
 ): Promise<CaptchaVerificationResponse> {
+
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
   try {
     const captchaResult = await verifyCaptcha(
-      `https://capjs.stacktastic.dev/${CAPTCHA_SECRET}/siteverify`,
+      `https://capjs.stacktastic.dev/ffeb0d0477/siteverify`,
       process.env.CAPTCHA_SECRET!,
       captchaSolution
     );
