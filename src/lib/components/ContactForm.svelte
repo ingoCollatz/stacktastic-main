@@ -1,31 +1,10 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import Header from "./Header.svelte";
 
   let success: boolean | null = null;
   let error: string | null = null;
   let captchaEl: HTMLElement | null = null;
-  let captchaSolutionInput: HTMLInputElement;
   let isSubmitting = false;
-
-  onMount(() => {
-    if (!captchaEl) return;
-
-    const handler = (event: Event) => {
-      const customEvent = event as CustomEvent<{ solution: string }>;
-      if (captchaSolutionInput) {
-        captchaSolutionInput.value = customEvent.detail.solution;
-      }
-    };
-
-    captchaEl.addEventListener("challenge-solved", handler);
-
-    // Save captchaEl reference locally for cleanup
-    const el = captchaEl;
-
-    return () => {
-      el.removeEventListener("challenge-solved", handler);
-    };
-  });
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -66,11 +45,7 @@
 </script>
 
 <svelte:head>
-  <script
-    src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.9/widget.min.js"
-    async
-    defer
-  ></script>
+  <script src="https://capjs.stacktastic.dev/assets/widget.js"></script>
 </svelte:head>
 
 <section class="w-full flex justify-center px-4 py-16 bg-white">
@@ -121,17 +96,9 @@
         ></textarea>
       </div>
 
-      <div
-        class="frc-captcha"
-        data-sitekey="FCMM1KHU2LFFL32E"
-        data-start="auto"
-        bind:this={captchaEl}
-      ></div>
-      <input
-        type="hidden"
-        name="frc-captcha-solution"
-        bind:this={captchaSolutionInput}
-      />
+      <cap-widget
+        data-cap-api-endpoint="https://capjs.stacktastic.dev/ffeb0d0477/"
+      ></cap-widget>
     </fieldset>
 
     <div>

@@ -1,6 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import nodemailer from "nodemailer";
-import { FriendlyCaptchaClient } from "@friendlycaptcha/server-sdk";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -11,15 +10,45 @@ const MAIL_PORT = process.env.MAIL_PORT!;
 const MAIL_SECURE = process.env.MAIL_SECURE!;
 const MAIL_USER = process.env.MAIL_USER!;
 const MAIL_PASS = process.env.MAIL_PASS!;
-const API_KEY_FRIENDLY_CAPTCHA = process.env.API_KEY_FRIENDLY_CAPTCHA!;
-const FRIENDLY_CAPTCHA_SECRET = process.env.FRIENDLY_CAPTCHA_SECRET!;
+const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET!;
+
+
+interface CaptchaVerificationResponse {
+  success: boolean;
+  challenge_ts?: string;  // timestamp of the challenge
+  hostname?: string;      // hostname where CAPTCHA was solved
+  [key: string]: unknown; // allow extra unknown fields
+}
+
+
+async function verifyCaptcha(
+  url: string,
+  secret: string,
+  token: string
+): Promise<CaptchaVerificationResponse> {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      secret,
+      response: token,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`CAPTCHA verification failed with status ${res.status}`);
+  }
+
+  return res.json() as Promise<CaptchaVerificationResponse>;
+}
+
 
 export const POST: RequestHandler = async ({ request }) => {
   const data = await request.formData();
   const name = data.get("name")?.toString();
   const email = data.get("email")?.toString();
   const message = data.get("message")?.toString();
-  const captchaSolution = data.get("frc-captcha-solution")?.toString();
+  const captchaSolution = data.get("cap-token")?.toString();
 
   if (!name || !email || !message) {
     return new Response(
@@ -29,22 +58,22 @@ export const POST: RequestHandler = async ({ request }) => {
   }
 
   if (!captchaSolution) {
-    return new Response(JSON.stringify({ error: "CAPTCHA is missing." }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ error: "CAPTCHA is missing." }),
+      { status: 400 }
+    );
   }
 
+
   try {
-    const friendlyCaptcha = new FriendlyCaptchaClient({
-      apiKey: API_KEY_FRIENDLY_CAPTCHA,
-      sitekey: FRIENDLY_CAPTCHA_SECRET,
-    });
+    const captchaResult = await verifyCaptcha(
+      `https://capjs.stacktastic.dev/${CAPTCHA_SECRET}/siteverify`,
+      process.env.CAPTCHA_SECRET!,
+      captchaSolution
+    );
 
-    const verificationResult =
-      await friendlyCaptcha.verifyCaptchaResponse(captchaSolution);
-
-    if (!verificationResult.response?.success) {
-      console.error("CAPTCHA verification failed:", verificationResult);
+    if (!captchaResult.success) {
+      console.error("CAPTCHA verification failed:", captchaResult);
       return new Response(
         JSON.stringify({ error: "CAPTCHA validation failed." }),
         { status: 400 }
@@ -58,6 +87,7 @@ export const POST: RequestHandler = async ({ request }) => {
     );
   }
 
+  // Email sending code unchanged...
   try {
     const transporter = nodemailer.createTransport({
       host: MAIL_HOST,
