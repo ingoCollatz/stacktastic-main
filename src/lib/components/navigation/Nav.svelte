@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Logo from "./Logo.svelte";
+  import Logo from "$lib/components/Logo.svelte";
   import { fade, slide } from "svelte/transition";
-  import Hamburger from "./Hamburger.svelte";
+  import Hamburger from "$lib/components/Hamburger.svelte";
   import { browser } from "$app/environment";
 
   let mobileMenuOpen = false;
