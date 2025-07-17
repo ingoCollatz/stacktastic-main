@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Header from "./Header.svelte";
-
   let success: boolean | null = null;
   let error: string | null = null;
   let captchaEl: HTMLElement | null = null;
