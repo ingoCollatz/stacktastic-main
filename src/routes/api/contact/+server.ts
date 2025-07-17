@@ -2,7 +2,9 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { verifyCaptcha } from "$lib/server/captcha";
 import { sendContactEmail } from "$lib/server/mailer";
 
-import { CAPTCHA_SECRET } from "$env/static/private";
+import { env } from "$env/dynamic/private";
+
+const CAPTCHA_SECRET = env.CAPTCHA_SECRET;
 
 export const POST: RequestHandler = async ({ request }) => {
   const data = await request.formData();

@@ -2,9 +2,9 @@ import nodemailer from "nodemailer";
 
 import { env } from "$env/dynamic/private";
 
-const MAIL_SECURE = env.MAIL_SECURE
+const MAIL_SECURE = env.MAIL_SECURE;
 const MAIL_HOST = env.MAIL_HOST;
-const MAIL_PORT = env.MAIL_PORT
+const MAIL_PORT = env.MAIL_PORT;
 const MAIL_USER = env.MAIL_USER;
 const MAIL_PASS = env.MAIL_PASS;
 const CONTACT_RECEIVER = env.CONTACT_RECEIVER;
