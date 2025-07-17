@@ -43,7 +43,6 @@
     "@friendlycaptcha/server-sdk": "^0.1.2",
     "@iconify/svelte": "^5.0.0",
     "@types/nodemailer": "^6.4.17",
-    "dotenv": "^17.2.0",
     "nodemailer": "^7.0.5"
   }
 }

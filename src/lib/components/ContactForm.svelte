@@ -4,6 +4,26 @@
   let captchaEl: HTMLElement | null = null;
   let isSubmitting = false;
 
+  type InputConfig = {
+    id: string;
+    label: string;
+    type?: string;
+    required: boolean;
+    rows?: number;
+  };
+
+  const inputs: InputConfig[] = [
+    { id: "name", label: "Name", required: true },
+    { id: "email", label: "Email", type: "email", required: true },
+    {
+      id: "message",
+      label: "Message",
+      type: "textarea",
+      required: true,
+      rows: 5,
+    },
+  ];
+
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
@@ -26,7 +46,6 @@
         success = true;
         formEl.reset();
 
-        // Reset captcha widget by dispatching reset event on captcha element
         captchaEl?.dispatchEvent(new CustomEvent("frc-captcha-reset"));
       } else {
         success = false;
@@ -55,47 +74,35 @@
     <fieldset class="space-y-6" disabled={isSubmitting}>
       <legend class="text-2xl font-bold text-gray-900 mb-4">Contact Me</legend>
 
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700"
-          >Name</label
-        >
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          class="mt-1 block w-full border border-gray-300 p-2 rounded"
-        />
-      </div>
+      {#each inputs as input}
+        <div>
+          <label for={input.id} class="block text-sm font-medium text-gray-700">
+            {input.label}
+          </label>
 
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          class="mt-1 block w-full border border-gray-300 p-2 rounded"
-        />
-      </div>
-
-      <div>
-        <label for="message" class="block text-sm font-medium text-gray-700"
-          >Message</label
-        >
-        <textarea
-          id="message"
-          name="message"
-          rows="5"
-          required
-          class="mt-1 block w-full border border-gray-300 p-2 rounded"
-        ></textarea>
-      </div>
+          {#if input.type === "textarea"}
+            <textarea
+              id={input.id}
+              name={input.id}
+              rows={input.rows ?? 3}
+              required={input.required}
+              class="mt-1 block w-full border border-gray-300 p-2 rounded"
+            ></textarea>
+          {:else}
+            <input
+              type={input.type ?? "text"}
+              id={input.id}
+              name={input.id}
+              required={input.required}
+              class="mt-1 block w-full border border-gray-300 p-2 rounded"
+            />
+          {/if}
+        </div>
+      {/each}
 
       <cap-widget
         data-cap-api-endpoint="https://capjs.stacktastic.dev/ffeb0d0477/"
+        bind:this={captchaEl}
       ></cap-widget>
     </fieldset>
 
