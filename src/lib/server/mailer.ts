@@ -1,12 +1,13 @@
 import nodemailer from "nodemailer";
-import {
-  MAIL_HOST,
-  MAIL_PASS,
-  MAIL_PORT,
-  MAIL_SECURE,
-  MAIL_USER,
-  CONTACT_RECEIVER,
-} from "$env/static/private";
+
+import { env } from "$env/dynamic/private";
+
+const MAIL_SECURE = env.MAIL_SECURE
+const MAIL_HOST = env.MAIL_HOST;
+const MAIL_PORT = env.MAIL_PORT
+const MAIL_USER = env.MAIL_USER;
+const MAIL_PASS = env.MAIL_PASS;
+const CONTACT_RECEIVER = env.CONTACT_RECEIVER;
 
 if (!MAIL_HOST || !MAIL_PORT || !MAIL_USER || !MAIL_PASS || !CONTACT_RECEIVER) {
   throw new Error("Missing required mail environment variables");
