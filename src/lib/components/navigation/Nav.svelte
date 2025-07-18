@@ -1,16 +1,41 @@
 <script lang="ts">
   import Logo from "$lib/components/Logo.svelte";
   import { fade, slide } from "svelte/transition";
-  import Hamburger from "$lib/components/Hamburger.svelte";
+  import Hamburger from "$lib/components/navigation/Hamburger.svelte";
   import { browser } from "$app/environment";
+
+  // Navigation items configuration
+  const navItems = [
+    { href: "#about", label: "About" },
+    { href: "#projects", label: "Projects" },
+    { href: "#stack", label: "Stack" },
+    { href: "#contact", label: "Contact" },
+  ];
 
   let mobileMenuOpen = false;
 
   // Lock scroll when mobile menu is open
-  $: if (browser && mobileMenuOpen) {
-    document.body.classList.add("overflow-hidden");
-  } else if (browser) {
-    document.body.classList.remove("overflow-hidden");
+  $: if (browser) {
+    if (mobileMenuOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }
+
+  // Handle mobile menu toggle
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
+
+  // Close mobile menu
+  function closeMobileMenu() {
+    mobileMenuOpen = false;
+  }
+
+  // Handle navigation click
+  function handleNavClick() {
+    closeMobileMenu();
   }
 </script>
 
@@ -24,69 +49,59 @@
       <Logo size={40} color="black" />
     </a>
 
-    <!-- Desktop Nav -->
+    <!-- Desktop Navigation -->
     <ul class="hidden md:flex gap-6 text-sm font-medium">
-      <li><a href="#about" class="hover:underline">About</a></li>
-      <li><a href="#projects" class="hover:underline">Projects</a></li>
-      <li><a href="#stack" class="hover:underline">Stack</a></li>
-      <li><a href="#contact" class="hover:underline">Contact</a></li>
+      {#each navItems as item (item.href)}
+        <li>
+          <a
+            href={item.href}
+            class="hover:underline transition-colors duration-200"
+          >
+            {item.label}
+          </a>
+        </li>
+      {/each}
     </ul>
 
-    <!-- Mobile Hamburger -->
+    <!-- Mobile Hamburger Button -->
     <button
-      class="md:hidden"
-      on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
+      class="md:hidden focus:outline-none p-1"
+      on:click={toggleMobileMenu}
       aria-label="Toggle navigation"
+      aria-expanded={mobileMenuOpen}
     >
       <Hamburger open={mobileMenuOpen} />
     </button>
   </div>
 
-  <!-- Mobile Dropdown + Backdrop -->
+  <!-- Mobile Menu -->
   {#if mobileMenuOpen}
     <!-- Backdrop -->
     <button
       type="button"
       class="fixed inset-x-0 top-[72px] bottom-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
       transition:fade={{ duration: 200 }}
-      on:click={() => (mobileMenuOpen = false)}
+      on:click={closeMobileMenu}
       aria-label="Close mobile menu"
     ></button>
 
-    <!-- Dropdown Menu -->
+    <!-- Mobile Navigation Dropdown -->
     <div
-      class="md:hidden absolute top-full left-0 w-full z-50 px-4 pb-4 shadow-lg bg-white"
+      class="md:hidden absolute top-full left-0 w-full z-50 px-4 pb-4 shadow-lg bg-white border-t border-gray-100"
       transition:slide={{ duration: 250 }}
     >
-      <ul class="flex flex-col gap-4 text-sm font-medium">
-        <li>
-          <a
-            href="#about"
-            on:click={() => (mobileMenuOpen = false)}
-            class="hover:underline">About</a
-          >
-        </li>
-        <li>
-          <a
-            href="#projects"
-            on:click={() => (mobileMenuOpen = false)}
-            class="hover:underline">Projects</a
-          >
-        </li>
-        <li>
-          <a
-            href="#stack"
-            on:click={() => (mobileMenuOpen = false)}
-            class="hover:underline">Stack</a
-          >
-        </li>
-        <li>
-          <a
-            href="#contact"
-            on:click={() => (mobileMenuOpen = false)}
-            class="hover:underline">Contact</a
-          >
-        </li>
+      <ul class="flex flex-col gap-4 text-sm font-medium py-4">
+        {#each navItems as item (item.href)}
+          <li>
+            <a
+              href={item.href}
+              on:click={handleNavClick}
+              class="block py-2 px-3 rounded-md hover:bg-gray-50 hover:underline transition-colors duration-200"
+            >
+              {item.label}
+            </a>
+          </li>
+        {/each}
       </ul>
     </div>
   {/if}
