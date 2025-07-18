@@ -41,7 +41,7 @@
 </script>
 
 <nav
-  class="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b transition-colors bg-white/90 dark:bg-gray-900/90 border-gray-200/50 dark:border-gray-700/50"
+  class="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b bg-white/90 dark:bg-gray-900/90 border-gray-200/50 dark:border-gray-700/50"
 >
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
     <!-- Logo -->
@@ -55,7 +55,7 @@
         <li>
           <a
             href={item.href}
-            class="hover:text-brand-500 dark:hover:text-brand-400 transition-colors duration-200 text-gray-700 dark:text-gray-300"
+            class="hover:text-brand-500 dark:hover:text-brand-400 text-gray-700 dark:text-gray-300"
           >
             {item.label}
           </a>
@@ -66,7 +66,7 @@
       <li>
         <button
           on:click={theme.toggle}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           aria-label="Toggle theme"
         >
           {#if $theme === "light"}
@@ -107,7 +107,7 @@
       <!-- Mobile Theme Toggle -->
       <button
         on:click={theme.toggle}
-        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-label="Toggle theme"
       >
         {#if $theme === "light"}
@@ -165,7 +165,7 @@
             <a
               href={item.href}
               on:click={handleNavClick}
-              class="block py-2 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-brand-500 dark:hover:text-brand-400 transition-colors duration-200 text-gray-700 dark:text-gray-300"
+              class="block py-2 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-brand-500 dark:hover:text-brand-400 text-gray-700 dark:text-gray-300"
             >
               {item.label}
             </a>
