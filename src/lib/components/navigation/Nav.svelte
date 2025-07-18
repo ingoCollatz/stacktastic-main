@@ -67,7 +67,7 @@
       <li>
         <button
           on:click={theme.toggle}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-100"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-75"
           aria-label="Toggle theme"
         >
           {#if $theme === "light"}
@@ -108,7 +108,7 @@
       <!-- Mobile Theme Toggle -->
       <button
         on:click={theme.toggle}
-        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-100"
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-75"
         aria-label="Toggle theme"
       >
         {#if $theme === "light"}
