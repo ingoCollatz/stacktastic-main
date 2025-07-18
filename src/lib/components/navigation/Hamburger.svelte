@@ -8,18 +8,18 @@
   stroke="currentColor"
   stroke-width="6"
   stroke-linecap="round"
-  class="w-6 h-6 transition duration-300 ease-in-out"
+  class="w-6 h-6 transition duration-150 ease-in-out"
 >
   <!-- Top line -->
   <path
     d={open ? "M 20,30 L 80,70" : "M 20,30 L 80,30"}
-    class="transition-all duration-300"
+    class="transition-all duration-150"
   />
   <!-- Middle line -->
-  <path d={open ? "" : "M 20,50 L 80,50"} class="transition-all duration-300" />
+  <path d={open ? "" : "M 20,50 L 80,50"} class="transition-all duration-150" />
   <!-- Bottom line -->
   <path
     d={open ? "M 20,70 L 80,30" : "M 20,70 L 80,70"}
-    class="transition-all duration-300"
+    class="transition-all duration-150"
   />
 </svg>
