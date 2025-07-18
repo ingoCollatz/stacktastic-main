@@ -1,4 +1,4 @@
-<section class="py-16 bg-white text-brand-dark">
+<section class="py-16 bg-white text-gray-900 dark:text-gray-100">
   <div class="max-w-6xl mx-auto px-4">
     <h2 class="text-3xl font-bold text-center mb-12">
       What I Bring to the Table

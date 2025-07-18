@@ -1,3 +1,54 @@
 @import "tailwindcss";
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
+  --color-brand-900: #0c4a6e;
+}
+
+/* Enable class-based dark mode */
+@variant dark (.dark &);
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Improved text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Focus visible improvements */
+*:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Enhanced form elements */
+input:focus,
+textarea:focus,
+select:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* Improved button hover effects */
+button:hover {
+  transform: translateY(-1px);
+}
