@@ -1,16 +1,6 @@
 <section
   class="relative py-24 md:py-32 overflow-hidden transition-colors duration-300"
 >
-  <!-- Background decorative elements -->
-  <div class="absolute inset-0 opacity-20 dark:opacity-30">
-    <div
-      class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.1),transparent_50%)]"
-    ></div>
-    <div
-      class="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(14,165,233,0.1),transparent_50%)]"
-    ></div>
-  </div>
-
   <div class="relative max-w-5xl mx-auto text-center px-6">
     <div class="animate-fade-in-up">
       <!-- Hero Badge -->
