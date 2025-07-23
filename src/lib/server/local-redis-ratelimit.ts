@@ -1,31 +1,47 @@
 /**
  * Local Redis Rate Limiting Configuration
- * Uses standard Redis client for local Docker container
- * Uses dynamic imports to avoid ES module bundling issues
+ * Uses in-memory fallback to avoid ES module bundling issues
+ * Redis is optional and will fall back to memory-based rate limiting
  */
 
 import { env } from "$env/dynamic/private";
+
+// In-memory rate limiting store as fallback
+const memoryStore = new Map<string, { count: number; resetTime: number; entries: number[] }>();
+
+// Clean up expired entries periodically
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, data] of memoryStore.entries()) {
+      if (now > data.resetTime) {
+        memoryStore.delete(key);
+      }
+    }
+  }, 60000); // Clean up every minute
+}
 
 // Redis client instance (created lazily)
 let redisClient: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
 let isRedisConnected = false;
 let redisModule: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+let useRedis = true; // Flag to disable Redis if it causes issues
 
 // Check if we're in a server environment
 const isServer = typeof process !== 'undefined' && process.versions?.node;
 
 // Dynamically import Redis only on server side to avoid bundling issues
 const getRedisModule = async () => {
-  if (!isServer) {
-    console.warn("Redis not available in browser context");
+  if (!isServer || !useRedis) {
     return null;
   }
-  
+
   if (!redisModule) {
     try {
       redisModule = await import("redis");
     } catch (error) {
-      console.warn("Failed to import Redis module:", error);
+      console.warn("Failed to import Redis module, falling back to in-memory rate limiting:", error);
+      useRedis = false;
       return null;
     }
   }
@@ -37,7 +53,7 @@ const getRedisClient = async () => {
   if (!redisClient) {
     const redis = await getRedisModule();
     if (!redis) return null;
-    
+
     redisClient = redis.createClient({
       url: env.REDIS_URL || "redis://localhost:6379",
       socket: {
@@ -50,20 +66,61 @@ const getRedisClient = async () => {
 
 // Handle Redis connection
 const connectRedis = async () => {
+  if (!useRedis) return false;
   if (isRedisConnected) return true;
 
   try {
     const client = await getRedisClient();
     if (!client) return false;
-    
+
     await client.connect();
     isRedisConnected = true;
     console.log("✅ Connected to local Redis");
     return true;
   } catch (error) {
-    console.warn("⚠️ Redis connection failed:", error);
+    console.warn("⚠️ Redis connection failed, using in-memory rate limiting:", error);
+    useRedis = false;
     return false;
   }
+};
+
+// In-memory rate limiting implementation
+const checkMemoryRateLimit = (identifier: string, limit: number, windowMs: number) => {
+  const key = identifier;
+  const now = Date.now();
+  const windowStart = now - windowMs;
+
+  let data = memoryStore.get(key);
+  if (!data) {
+    data = { count: 0, resetTime: now + windowMs, entries: [] };
+    memoryStore.set(key, data);
+  }
+
+  // Remove old entries outside the window
+  data.entries = data.entries.filter(timestamp => timestamp > windowStart);
+  data.count = data.entries.length;
+
+  // Check if limit exceeded
+  if (data.count >= limit) {
+    return {
+      success: false,
+      limit,
+      remaining: 0,
+      reset: new Date(now + windowMs),
+    };
+  }
+
+  // Add current request
+  data.entries.push(now);
+  data.count = data.entries.length;
+  data.resetTime = now + windowMs;
+
+  return {
+    success: true,
+    limit,
+    remaining: limit - data.count,
+    reset: new Date(now + windowMs),
+  };
 };
 
 // Rate limiting implementation using local Redis
@@ -72,7 +129,7 @@ export class LocalRedisRateLimit {
     private limit: number,
     private windowMs: number,
     private keyPrefix: string,
-  ) {}
+  ) { }
 
   async check(identifier: string): Promise<{
     success: boolean;
@@ -80,17 +137,13 @@ export class LocalRedisRateLimit {
     remaining: number;
     reset: Date;
   }> {
+    // Try Redis first, fallback to memory if unavailable
     const connected = await connectRedis();
 
-    if (!connected) {
-      // Graceful degradation - allow request if Redis unavailable
-      console.warn("Rate limiting disabled - Redis unavailable");
-      return {
-        success: true,
-        limit: this.limit,
-        remaining: this.limit,
-        reset: new Date(Date.now() + this.windowMs),
-      };
+    if (!connected || !useRedis) {
+      // Use in-memory rate limiting as fallback
+      console.warn("Using in-memory rate limiting (Redis unavailable)");
+      return checkMemoryRateLimit(identifier, this.limit, this.windowMs);
     }
 
     const key = `${this.keyPrefix}:${identifier}`;
@@ -100,9 +153,10 @@ export class LocalRedisRateLimit {
     try {
       const client = await getRedisClient();
       if (!client) {
-        throw new Error("Redis client not available");
+        // Fall back to memory-based rate limiting
+        return checkMemoryRateLimit(identifier, this.limit, this.windowMs);
       }
-      
+
       // Use Redis sorted set for sliding window
       const multi = client.multi();
 
@@ -141,14 +195,10 @@ export class LocalRedisRateLimit {
         reset: new Date(now + this.windowMs),
       };
     } catch (error) {
-      console.error("Redis rate limiting error:", error);
-      // Graceful degradation - allow request on error
-      return {
-        success: true,
-        limit: this.limit,
-        remaining: this.limit,
-        reset: new Date(Date.now() + this.windowMs),
-      };
+      console.warn("Redis rate limiting error, falling back to memory:", error);
+      // Fall back to in-memory rate limiting on Redis errors
+      useRedis = false;
+      return checkMemoryRateLimit(identifier, this.limit, this.windowMs);
     }
   }
 }
