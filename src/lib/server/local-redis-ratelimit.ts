@@ -1,19 +1,44 @@
 /**
  * Local Redis Rate Limiting Configuration
  * Uses standard Redis client for local Docker container
+ * Uses dynamic imports to avoid ES module bundling issues
  */
 
-import { createClient, type RedisClientType } from "redis";
 import { env } from "$env/dynamic/private";
 
 // Redis client instance (created lazily)
-let redisClient: RedisClientType | null = null;
+let redisClient: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
 let isRedisConnected = false;
+let redisModule: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+// Check if we're in a server environment
+const isServer = typeof process !== 'undefined' && process.versions?.node;
+
+// Dynamically import Redis only on server side to avoid bundling issues
+const getRedisModule = async () => {
+  if (!isServer) {
+    console.warn("Redis not available in browser context");
+    return null;
+  }
+  
+  if (!redisModule) {
+    try {
+      redisModule = await import("redis");
+    } catch (error) {
+      console.warn("Failed to import Redis module:", error);
+      return null;
+    }
+  }
+  return redisModule;
+};
 
 // Create Redis client lazily to avoid SSR issues
-const getRedisClient = () => {
+const getRedisClient = async () => {
   if (!redisClient) {
-    redisClient = createClient({
+    const redis = await getRedisModule();
+    if (!redis) return null;
+    
+    redisClient = redis.createClient({
       url: env.REDIS_URL || "redis://localhost:6379",
       socket: {
         connectTimeout: 5000,
@@ -28,7 +53,9 @@ const connectRedis = async () => {
   if (isRedisConnected) return true;
 
   try {
-    const client = getRedisClient();
+    const client = await getRedisClient();
+    if (!client) return false;
+    
     await client.connect();
     isRedisConnected = true;
     console.log("✅ Connected to local Redis");
@@ -71,7 +98,10 @@ export class LocalRedisRateLimit {
     const windowStart = now - this.windowMs;
 
     try {
-      const client = getRedisClient();
+      const client = await getRedisClient();
+      if (!client) {
+        throw new Error("Redis client not available");
+      }
       
       // Use Redis sorted set for sliding window
       const multi = client.multi();
@@ -146,16 +176,26 @@ export async function checkRateLimit(
 }
 
 // Graceful shutdown
-process.on("SIGINT", async () => {
-  if (isRedisConnected && redisClient) {
-    await redisClient.quit();
-    console.log("Redis connection closed");
-  }
-});
+if (isServer) {
+  process.on("SIGINT", async () => {
+    if (isRedisConnected && redisClient) {
+      try {
+        await redisClient.quit();
+        console.log("Redis connection closed");
+      } catch (error) {
+        console.warn("Error closing Redis connection:", error);
+      }
+    }
+  });
 
-process.on("SIGTERM", async () => {
-  if (isRedisConnected && redisClient) {
-    await redisClient.quit();
-    console.log("Redis connection closed");
-  }
-});
+  process.on("SIGTERM", async () => {
+    if (isRedisConnected && redisClient) {
+      try {
+        await redisClient.quit();
+        console.log("Redis connection closed");
+      } catch (error) {
+        console.warn("Error closing Redis connection:", error);
+      }
+    }
+  });
+}
