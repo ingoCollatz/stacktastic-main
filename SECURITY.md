@@ -64,16 +64,19 @@ CONTACT_RECEIVER=contact@yourdomain.com
 
 # Enhanced security (optional)
 CSRF_SECRET=your-csrf-secret-key-here
-UPSTASH_REDIS_REST_URL=https://your-redis-instance.upstash.io
-UPSTASH_REDIS_REST_TOKEN=your-redis-token
+REDIS_URL=redis://localhost:6379
 ```
 
 ### Rate Limiting Setup (Optional but Recommended)
 
-1. Create an account at [Upstash](https://upstash.com/)
-2. Create a Redis database
-3. Copy the REST URL and Token to your environment variables
-4. Rate limiting will automatically activate
+1. Start a local Redis Docker container:
+
+   ```bash
+   docker run --name redis -d -p 6379:6379 redis:alpine
+   ```
+
+2. Set the REDIS_URL environment variable to `redis://localhost:6379`
+3. Rate limiting will automatically activate
 
 ### CSRF Protection
 
@@ -124,7 +127,7 @@ Monitor these logs for potential security issues.
 
 ## 📧 Contact Form Flow
 
-```
+```mermaid
 User Input → Validation → Rate Limit Check → CAPTCHA Verification →
 Sanitization → Email Sending → Secure Response
 ```

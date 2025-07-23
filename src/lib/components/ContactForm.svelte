@@ -20,6 +20,21 @@
     }
   });
 
+  // Helper function to reset CAPTCHA
+  function resetCaptcha() {
+    if (captchaEl) {
+      // Method 1: Direct reset method call (most common for cap.js)
+      if (typeof (captchaEl as any).reset === "function") {
+        (captchaEl as any).reset();
+      }
+      // Method 2: Custom events (fallback)
+      else {
+        captchaEl.dispatchEvent(new CustomEvent("cap-reset"));
+        captchaEl.dispatchEvent(new CustomEvent("reset"));
+      }
+    }
+  }
+
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
@@ -47,7 +62,8 @@
         success = true;
         formEl.reset();
 
-        captchaEl?.dispatchEvent(new CustomEvent("frc-captcha-reset"));
+        // Reset CAPTCHA after successful submission
+        resetCaptcha();
 
         // Refresh CSRF token after successful submission
         try {
@@ -60,11 +76,17 @@
       } else {
         success = false;
         error = result.error || "An unknown error occurred.";
+
+        // Reset CAPTCHA on error (security best practice)
+        resetCaptcha();
       }
     } catch (err) {
       success = false;
       error = "Network or server error. Please try again later.";
       console.error(err);
+
+      // Reset CAPTCHA on network error
+      resetCaptcha();
     } finally {
       isSubmitting = false;
     }
