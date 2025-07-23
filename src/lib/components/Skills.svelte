@@ -1,43 +1,52 @@
 <script lang="ts">
-  import Icon from "@iconify/svelte";
   import { scale } from "svelte/transition";
+  import {
+    Svelte,
+    TypeScript,
+    GraphQL,
+    PostgreSQL,
+    TailwindCSS,
+    NodeJS,
+    Docker,
+    GitHub,
+  } from "./icons";
+  import type { ComponentType } from "svelte";
 
-  const skills = [
+  interface Skill {
+    name: string;
+    component: ComponentType;
+  }
+
+  const skills: Skill[] = [
     {
       name: "SvelteKit",
-      icon: "simple-icons:svelte",
-      color: "text-orange-500",
+      component: Svelte,
     },
     {
       name: "TypeScript",
-      icon: "simple-icons:typescript",
-      color: "text-blue-600",
+      component: TypeScript,
     },
-    { name: "GraphQL", icon: "simple-icons:graphql", color: "text-pink-500" },
+    { name: "GraphQL", component: GraphQL },
     {
       name: "PostgreSQL",
-      icon: "simple-icons:postgresql",
-      color: "text-blue-700",
+      component: PostgreSQL,
     },
     {
       name: "Tailwind CSS",
-      icon: "simple-icons:tailwindcss",
-      color: "text-teal-500",
+      component: TailwindCSS,
     },
     {
       name: "Node.js",
-      icon: "simple-icons:nodedotjs",
-      color: "text-green-600",
+      component: NodeJS,
     },
-    { name: "Docker", icon: "simple-icons:docker", color: "text-blue-500" },
+    { name: "Docker", component: Docker },
     {
       name: "GitHub Actions",
-      icon: "simple-icons:githubactions",
-      color: "text-gray-900 dark:text-gray-100",
+      component: GitHub,
     },
   ];
 
-  let hoveredSkill: any = null;
+  let hoveredSkill: string | null = null;
 </script>
 
 <section id="stack" class="py-20 text-gray-900 dark:text-gray-100">
@@ -76,9 +85,9 @@
             <div
               class="mb-4 transform group-hover:scale-110 transition-transform duration-300"
             >
-              <Icon
-                icon={skill.icon}
-                class="w-12 h-12 {skill.color} group-hover:drop-shadow-lg transition-all duration-300"
+              <svelte:component
+                this={skill.component}
+                class="w-12 h-12 group-hover:drop-shadow-lg transition-all duration-300"
               />
             </div>
             <span

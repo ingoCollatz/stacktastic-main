@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import ContactInfo from "./contact/ContactInfo.svelte";
   import ContactFormFields from "./contact/ContactFormFields.svelte";
 
@@ -6,12 +7,29 @@
   let error: string | null = null;
   let captchaEl: HTMLElement | null = null;
   let isSubmitting = false;
+  let csrfToken = "";
+
+  // Generate CSRF token on component mount
+  onMount(async () => {
+    try {
+      const response = await fetch("/api/csrf-token");
+      const data = await response.json();
+      csrfToken = data.token;
+    } catch (err) {
+      console.error("Failed to get CSRF token:", err);
+    }
+  });
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     const formEl = event.target as HTMLFormElement;
     const formData = new FormData(formEl);
+
+    // Add CSRF token to form data
+    if (csrfToken) {
+      formData.append("csrf-token", csrfToken);
+    }
 
     isSubmitting = true;
     success = null;
@@ -30,6 +48,15 @@
         formEl.reset();
 
         captchaEl?.dispatchEvent(new CustomEvent("frc-captcha-reset"));
+
+        // Refresh CSRF token after successful submission
+        try {
+          const tokenResponse = await fetch("/api/csrf-token");
+          const tokenData = await tokenResponse.json();
+          csrfToken = tokenData.token;
+        } catch (err) {
+          console.error("Failed to refresh CSRF token:", err);
+        }
       } else {
         success = false;
         error = result.error || "An unknown error occurred.";
