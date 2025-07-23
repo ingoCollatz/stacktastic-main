@@ -3,26 +3,33 @@
  * Uses standard Redis client for local Docker container
  */
 
-import { createClient } from "redis";
+import { createClient, type RedisClientType } from "redis";
 import { env } from "$env/dynamic/private";
 
-// Create Redis client for local Docker container
-const redisClient = createClient({
-  url: env.REDIS_URL || "redis://localhost:6379",
-  // Add connection options
-  socket: {
-    connectTimeout: 5000,
-  },
-});
-
-// Handle Redis connection
+// Redis client instance (created lazily)
+let redisClient: RedisClientType | null = null;
 let isRedisConnected = false;
 
+// Create Redis client lazily to avoid SSR issues
+const getRedisClient = () => {
+  if (!redisClient) {
+    redisClient = createClient({
+      url: env.REDIS_URL || "redis://localhost:6379",
+      socket: {
+        connectTimeout: 5000,
+      },
+    });
+  }
+  return redisClient;
+};
+
+// Handle Redis connection
 const connectRedis = async () => {
   if (isRedisConnected) return true;
 
   try {
-    await redisClient.connect();
+    const client = getRedisClient();
+    await client.connect();
     isRedisConnected = true;
     console.log("✅ Connected to local Redis");
     return true;
@@ -64,8 +71,10 @@ export class LocalRedisRateLimit {
     const windowStart = now - this.windowMs;
 
     try {
+      const client = getRedisClient();
+      
       // Use Redis sorted set for sliding window
-      const multi = redisClient.multi();
+      const multi = client.multi();
 
       // Remove old entries outside the window
       multi.zRemRangeByScore(key, 0, windowStart);
@@ -85,7 +94,7 @@ export class LocalRedisRateLimit {
       // Check if limit exceeded (before adding current request)
       if (currentCount >= this.limit) {
         // Remove the request we just added since we're rejecting it
-        await redisClient.zRem(key, `${now}-${Math.random()}`);
+        await client.zRem(key, `${now}-${Math.random()}`);
 
         return {
           success: false,
@@ -138,14 +147,14 @@ export async function checkRateLimit(
 
 // Graceful shutdown
 process.on("SIGINT", async () => {
-  if (isRedisConnected) {
+  if (isRedisConnected && redisClient) {
     await redisClient.quit();
     console.log("Redis connection closed");
   }
 });
 
 process.on("SIGTERM", async () => {
-  if (isRedisConnected) {
+  if (isRedisConnected && redisClient) {
     await redisClient.quit();
     console.log("Redis connection closed");
   }
