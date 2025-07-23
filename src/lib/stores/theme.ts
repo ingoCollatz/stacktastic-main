@@ -15,7 +15,7 @@ function createTheme(): ThemeStore {
     set,
     update,
     toggle: () => {
-      update(theme => {
+      update((theme) => {
         const newTheme = theme === "light" ? "dark" : "light";
 
         if (browser) {
@@ -27,7 +27,7 @@ function createTheme(): ThemeStore {
 
         return newTheme;
       });
-    }
+    },
   };
 }
 
@@ -36,7 +36,9 @@ export const theme = createTheme();
 // Initialize theme from localStorage and system preference
 if (browser) {
   const stored = localStorage.getItem("theme");
-  const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const systemPreference = window.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
 
   let initialTheme: Theme;
 

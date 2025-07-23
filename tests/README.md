@@ -5,11 +5,13 @@ This document explains the security testing implementation for the contact form.
 ## 🧪 Test Suite Overview
 
 ### Test Files
+
 - **`tests/security.test.ts`** - Comprehensive security function tests
 - **`tests/setup.ts`** - Test environment configuration
 - **`vitest.config.ts`** - Vitest configuration
 
 ### Test Coverage
+
 - ✅ Input sanitization (HTML/XSS removal)
 - ✅ Control character filtering
 - ✅ Input length limitations
@@ -22,6 +24,7 @@ This document explains the security testing implementation for the contact form.
 ## 🚀 Running Tests
 
 ### Available Commands
+
 ```bash
 # Run tests once
 npm run test run
@@ -37,6 +40,7 @@ npm run test:coverage
 ```
 
 ### Test Results
+
 ```
 ✓ tests/security-integration.test.ts (8 tests) 4ms
   ✓ Security Functions (8)
@@ -55,7 +59,7 @@ npm run test:coverage
 ✓ tests/security.test.ts (10 tests) 12ms
   ✓ Input Sanitization (4)
     ✓ should remove HTML/script tags
-    ✓ should remove control characters  
+    ✓ should remove control characters
     ✓ should limit input length
     ✓ should normalize unicode
   ✓ Email Validation (2)
@@ -74,12 +78,14 @@ Test Files  2 passed (2)
 ## 🔧 Configuration
 
 ### Vitest Config (`vitest.config.ts`)
+
 - **Environment**: jsdom (for DOM manipulation testing)
 - **Globals**: Enabled for describe/it/expect
 - **Coverage**: Focused on security modules
 - **Setup**: Automatic mocking of SvelteKit environment
 
 ### TypeScript Config
+
 - **Types**: Includes vitest globals
 - **Include**: Test files and configuration
 - **Module Resolution**: Compatible with SvelteKit
@@ -87,27 +93,30 @@ Test Files  2 passed (2)
 ## 🛡️ Test Scenarios
 
 ### XSS Prevention Tests
+
 ```typescript
 const maliciousInput = '<script>alert("xss")</script>Hello';
 const sanitized = sanitizeInput(maliciousInput);
-expect(sanitized).toBe('Hello'); // Script tags removed
+expect(sanitized).toBe("Hello"); // Script tags removed
 ```
 
 ### Email Header Injection Tests
+
 ```typescript
 const result = validateContactForm(
-  'Test User',
-  'test@example.com',
-  'bcc: evil@hacker.com; malicious content'
+  "Test User",
+  "test@example.com",
+  "bcc: evil@hacker.com; malicious content",
 );
 expect(result.isValid).toBe(false);
-expect(result.errors).toContain('Invalid content detected');
+expect(result.errors).toContain("Invalid content detected");
 ```
 
 ### Input Length Validation
+
 ```typescript
-const longName = 'a'.repeat(200);
-const result = validateContactForm(longName, 'test@example.com', 'Hello');
+const longName = "a".repeat(200);
+const result = validateContactForm(longName, "test@example.com", "Hello");
 expect(result.isValid).toBe(false);
 ```
 
@@ -136,6 +145,7 @@ Tests can be integrated into CI/CD pipelines:
 ## 📈 Future Enhancements
 
 Potential test additions:
+
 - Rate limiting functionality tests
 - CAPTCHA verification mock tests
 - Email sending security tests
@@ -145,13 +155,14 @@ Potential test additions:
 ## 🚨 Test Maintenance
 
 - **Run tests** before each deployment
-- **Update tests** when security functions change  
+- **Update tests** when security functions change
 - **Monitor coverage** to ensure comprehensive testing
 - **Add new tests** for any new security features
 
 ## 🔧 Security Configuration Updates
 
 ### Content Security Policy (CSP) Fixes
+
 Recent updates to resolve browser console errors:
 
 - **Added Iconify API support**: `https://api.iconify.design`, `https://api.unisvg.com`, `https://api.simplesvg.com`
@@ -161,16 +172,17 @@ Recent updates to resolve browser console errors:
 - **Maintained security**: All changes preserve security while enabling legitimate functionality
 
 ### Current CSP Configuration
+
 ```
-Content-Security-Policy: 
-  default-src 'self'; 
-  script-src 'self' 'unsafe-inline' blob: https://capjs.stacktastic.dev https://cdn.jsdelivr.net; 
-  style-src 'self' 'unsafe-inline'; 
-  img-src 'self' data: https:; 
-  font-src 'self' data:; 
-  connect-src 'self' https://capjs.stacktastic.dev https://api.iconify.design https://api.unisvg.com https://api.simplesvg.com https://cdn.jsdelivr.net; 
-  worker-src 'self' blob:; 
-  frame-ancestors 'none'; 
-  base-uri 'self'; 
+Content-Security-Policy:
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' blob: https://capjs.stacktastic.dev https://cdn.jsdelivr.net;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https:;
+  font-src 'self' data:;
+  connect-src 'self' https://capjs.stacktastic.dev https://api.iconify.design https://api.unisvg.com https://api.simplesvg.com https://cdn.jsdelivr.net;
+  worker-src 'self' blob:;
+  frame-ancestors 'none';
+  base-uri 'self';
   form-action 'self'
 ```

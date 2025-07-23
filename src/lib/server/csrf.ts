@@ -1,26 +1,31 @@
-import { randomBytes, createHmac } from 'crypto';
+import { randomBytes, createHmac } from "crypto";
 import { env } from "$env/dynamic/private";
 
 // Use a strong secret for CSRF token generation
-const CSRF_SECRET = env.CSRF_SECRET || env.CAPTCHA_SECRET || 'dev-secret-change-in-production';
+const CSRF_SECRET =
+  env.CSRF_SECRET || env.CAPTCHA_SECRET || "dev-secret-change-in-production";
 
 export function generateCSRFToken(): string {
-  const randomValue = randomBytes(32).toString('hex');
+  const randomValue = randomBytes(32).toString("hex");
   const timestamp = Date.now().toString();
   const payload = `${randomValue}.${timestamp}`;
-  const signature = createHmac('sha256', CSRF_SECRET)
+  const signature = createHmac("sha256", CSRF_SECRET)
     .update(payload)
-    .digest('hex');
+    .digest("hex");
 
   return `${payload}.${signature}`;
 }
 
-export function verifyCSRFToken(token: string, maxAge: number = 3600000): boolean { // 1 hour default
-  if (!token || typeof token !== 'string') {
+export function verifyCSRFToken(
+  token: string,
+  maxAge: number = 3600000,
+): boolean {
+  // 1 hour default
+  if (!token || typeof token !== "string") {
     return false;
   }
 
-  const parts = token.split('.');
+  const parts = token.split(".");
   if (parts.length !== 3) {
     return false;
   }
@@ -29,9 +34,9 @@ export function verifyCSRFToken(token: string, maxAge: number = 3600000): boolea
   const payload = `${randomValue}.${timestamp}`;
 
   // Verify signature
-  const expectedSignature = createHmac('sha256', CSRF_SECRET)
+  const expectedSignature = createHmac("sha256", CSRF_SECRET)
     .update(payload)
-    .digest('hex');
+    .digest("hex");
 
   if (signature !== expectedSignature) {
     return false;
@@ -51,13 +56,13 @@ export function verifyCSRFToken(token: string, maxAge: number = 3600000): boolea
 // Helper to get client IP address
 export function getClientIP(request: Request): string {
   // Check various headers for the real IP
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIP = request.headers.get('x-real-ip');
-  const clientIP = request.headers.get('x-client-ip');
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIP = request.headers.get("x-real-ip");
+  const clientIP = request.headers.get("x-client-ip");
 
   if (forwarded) {
     // x-forwarded-for can contain multiple IPs, take the first one
-    return forwarded.split(',')[0].trim();
+    return forwarded.split(",")[0].trim();
   }
 
   if (realIP) {
@@ -69,5 +74,5 @@ export function getClientIP(request: Request): string {
   }
 
   // Fallback to a default IP if none found
-  return '127.0.0.1';
+  return "127.0.0.1";
 }

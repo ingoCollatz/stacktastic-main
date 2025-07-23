@@ -5,6 +5,7 @@ This document outlines the security measures implemented in the contact form and
 ## 🔒 Security Features Implemented
 
 ### 1. Input Sanitization & Validation
+
 - **DOMPurify**: Removes all HTML/JavaScript from user inputs
 - **Length Limits**: Prevents DoS attacks through excessive input length
 - **Character Filtering**: Removes control characters and dangerous patterns
@@ -12,17 +13,20 @@ This document outlines the security measures implemented in the contact form and
 - **Suspicious Pattern Detection**: Detects email header injection attempts
 
 ### 2. Rate Limiting
+
 - **Contact Form**: 3 submissions per 10 minutes per IP
 - **Global Rate Limit**: 10 requests per minute per IP
 - **Upstash Redis**: Backend for distributed rate limiting
 - **Graceful Degradation**: Falls back safely if Redis is unavailable
 
 ### 3. CAPTCHA Protection
+
 - **Server-side Verification**: All CAPTCHA tokens verified on backend
 - **Custom Implementation**: Uses capjs.stacktastic.dev service
 - **Required Submission**: No form submissions allowed without CAPTCHA
 
 ### 4. Security Headers
+
 - **Content Security Policy**: Prevents XSS attacks
 - **X-Frame-Options**: Prevents clickjacking
 - **X-Content-Type-Options**: Prevents MIME sniffing
@@ -32,12 +36,14 @@ This document outlines the security measures implemented in the contact form and
 - **Permissions Policy**: Restricts browser features
 
 ### 5. Email Security
+
 - **Header Injection Prevention**: Sanitizes email headers
 - **Content Validation**: Validates email addresses and content
 - **TLS Enforcement**: Requires encrypted email transmission
 - **Safe Reply-To**: Allows safe replies to form submitters
 
 ### 6. Error Handling
+
 - **Generic Error Messages**: Prevents information disclosure
 - **Proper Logging**: Security events logged for monitoring
 - **Graceful Failures**: Application continues working if security services fail
@@ -45,6 +51,7 @@ This document outlines the security measures implemented in the contact form and
 ## 🚀 Setup Instructions
 
 ### Required Environment Variables
+
 ```bash
 # Core functionality (required)
 CAPTCHA_SECRET=your-captcha-secret
@@ -62,12 +69,14 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token
 ```
 
 ### Rate Limiting Setup (Optional but Recommended)
+
 1. Create an account at [Upstash](https://upstash.com/)
 2. Create a Redis database
 3. Copy the REST URL and Token to your environment variables
 4. Rate limiting will automatically activate
 
 ### CSRF Protection
+
 - Uses `CSRF_SECRET` environment variable
 - Falls back to `CAPTCHA_SECRET` if not provided
 - Tokens valid for 1 hour by default
@@ -75,6 +84,7 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token
 ## 📊 Security Score: 9.5/10
 
 ### ✅ Implemented Protections
+
 - ✅ Input sanitization and validation
 - ✅ Rate limiting with Redis backend
 - ✅ CAPTCHA verification
@@ -86,6 +96,7 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token
 - ✅ Suspicious pattern detection
 
 ### 🔄 Areas for Future Enhancement
+
 - **Database Logging**: Log security events to database
 - **IP Geolocation**: Block high-risk countries (if needed)
 - **Advanced Bot Detection**: ML-based bot detection
@@ -103,6 +114,7 @@ UPSTASH_REDIS_REST_TOKEN=your-redis-token
 ## 🚨 Monitoring & Alerts
 
 The system logs security events including:
+
 - Rate limit violations
 - CAPTCHA failures
 - Invalid input attempts
@@ -113,7 +125,7 @@ Monitor these logs for potential security issues.
 ## 📧 Contact Form Flow
 
 ```
-User Input → Validation → Rate Limit Check → CAPTCHA Verification → 
+User Input → Validation → Rate Limit Check → CAPTCHA Verification →
 Sanitization → Email Sending → Secure Response
 ```
 

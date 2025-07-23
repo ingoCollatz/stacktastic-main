@@ -3,19 +3,21 @@ export interface SecurityHeaders {
 }
 
 export function getSecurityHeaders(): SecurityHeaders {
-  const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
+  const isDev =
+    process.env.NODE_ENV === "development" ||
+    process.env.NODE_ENV === undefined;
 
   const headers: SecurityHeaders = {
     // Prevent XSS attacks
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'DENY',
-    'X-XSS-Protection': '1; mode=block',
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block",
 
     // HTTPS enforcement
-    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
 
     // Content Security Policy - Allow JSDelivr for CAPTCHA dependencies
-    'Content-Security-Policy': [
+    "Content-Security-Policy": [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://capjs.stacktastic.dev https://cdn.jsdelivr.net",
       "style-src 'self' 'unsafe-inline'",
@@ -25,26 +27,26 @@ export function getSecurityHeaders(): SecurityHeaders {
       "worker-src 'self' blob:",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self'"
-    ].join('; '),
+      "form-action 'self'",
+    ].join("; "),
 
     // Referrer policy
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    "Referrer-Policy": "strict-origin-when-cross-origin",
 
     // Permissions policy
-    'Permissions-Policy': [
-      'camera=()',
-      'microphone=()',
-      'geolocation=()',
-      'interest-cohort=()'
-    ].join(', ')
+    "Permissions-Policy": [
+      "camera=()",
+      "microphone=()",
+      "geolocation=()",
+      "interest-cohort=()",
+    ].join(", "),
   };
 
   // Add cache-busting headers for development to prevent CSP caching issues
   if (isDev) {
-    headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-    headers['Pragma'] = 'no-cache';
-    headers['Expires'] = '0';
+    headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    headers["Pragma"] = "no-cache";
+    headers["Expires"] = "0";
   }
 
   return headers;
@@ -63,15 +65,16 @@ export function addSecurityHeaders(response: Response): Response {
 export function createSecureResponse(
   data: object | string,
   status: number = 200,
-  additionalHeaders?: Record<string, string>
+  additionalHeaders?: Record<string, string>,
 ): Response {
-  const body = typeof data === 'string' ? data : JSON.stringify(data);
-  const contentType = typeof data === 'string' ? 'text/plain' : 'application/json';
+  const body = typeof data === "string" ? data : JSON.stringify(data);
+  const contentType =
+    typeof data === "string" ? "text/plain" : "application/json";
 
   const response = new Response(body, {
     status,
     headers: {
-      'Content-Type': contentType,
+      "Content-Type": contentType,
       ...getSecurityHeaders(),
       ...additionalHeaders,
     },

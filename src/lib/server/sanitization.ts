@@ -1,8 +1,8 @@
-import DOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
+import DOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
 
 // Create a DOM window for DOMPurify to use in server-side environment
-const window = new JSDOM('').window;
+const window = new JSDOM("").window;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DOMPurifyServer = DOMPurify(window as any);
 
@@ -18,27 +18,29 @@ DOMPurifyServer.setConfig({
 });
 
 export function sanitizeInput(input: string): string {
-  if (!input || typeof input !== 'string') {
-    return '';
+  if (!input || typeof input !== "string") {
+    return "";
   }
 
   // First pass: Remove HTML/script content
   const cleaned = DOMPurifyServer.sanitize(input);
 
   // Second pass: Additional security measures
-  return cleaned
-    .trim()
-    .slice(0, 10000) // Limit length to prevent DoS
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '') // Remove control characters
-    .replace(/\r\n/g, '\n') // Normalize line endings
-    .replace(/\n{5,}/g, '\n\n\n\n') // Limit consecutive newlines
-    .normalize('NFC'); // Unicode normalization
+  return (
+    cleaned
+      .trim()
+      .slice(0, 10000) // Limit length to prevent DoS
+      // eslint-disable-next-line no-control-regex
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "") // Remove control characters
+      .replace(/\r\n/g, "\n") // Normalize line endings
+      .replace(/\n{5,}/g, "\n\n\n\n") // Limit consecutive newlines
+      .normalize("NFC")
+  ); // Unicode normalization
 }
 
 export function sanitizeEmail(email: string): string {
-  if (!email || typeof email !== 'string') {
-    return '';
+  if (!email || typeof email !== "string") {
+    return "";
   }
 
   // Basic email sanitization - remove dangerous characters
@@ -46,8 +48,8 @@ export function sanitizeEmail(email: string): string {
     .trim()
     .toLowerCase()
     .slice(0, 254) // RFC 5321 limit
-    .replace(/[^\w@.-]/g, '') // Only allow word chars, @, ., and -
-    .normalize('NFC');
+    .replace(/[^\w@.-]/g, "") // Only allow word chars, @, ., and -
+    .normalize("NFC");
 }
 
 export function validateEmail(email: string): boolean {
@@ -55,14 +57,19 @@ export function validateEmail(email: string): boolean {
   return emailRegex.test(email) && email.length <= 254;
 }
 
-export function validateInput(input: string, maxLength: number = 5000): boolean {
-  if (!input || typeof input !== 'string') {
+export function validateInput(
+  input: string,
+  maxLength: number = 5000,
+): boolean {
+  if (!input || typeof input !== "string") {
     return false;
   }
 
-  return input.trim().length > 0 &&
+  return (
+    input.trim().length > 0 &&
     input.length <= maxLength &&
-    !input.includes('\0'); // No null bytes
+    !input.includes("\0")
+  ); // No null bytes
 }
 
 // Additional validation for contact form
@@ -77,7 +84,7 @@ export interface ContactFormValidation {
 export function validateContactForm(
   name: string,
   email: string,
-  message: string
+  message: string,
 ): ContactFormValidation {
   const errors: string[] = [];
 
@@ -88,17 +95,17 @@ export function validateContactForm(
 
   // Validate name
   if (!validateInput(sanitizedName, 100)) {
-    errors.push('Name is required and must be less than 100 characters');
+    errors.push("Name is required and must be less than 100 characters");
   }
 
   // Validate email
   if (!validateEmail(sanitizedEmail)) {
-    errors.push('Valid email is required');
+    errors.push("Valid email is required");
   }
 
   // Validate message
   if (!validateInput(sanitizedMessage, 5000)) {
-    errors.push('Message is required and must be less than 5000 characters');
+    errors.push("Message is required and must be less than 5000 characters");
   }
 
   // Check for suspicious patterns
@@ -114,7 +121,7 @@ export function validateContactForm(
   const allText = `${sanitizedName} ${sanitizedEmail} ${sanitizedMessage}`;
   for (const pattern of suspiciousPatterns) {
     if (pattern.test(allText)) {
-      errors.push('Invalid content detected');
+      errors.push("Invalid content detected");
       break;
     }
   }

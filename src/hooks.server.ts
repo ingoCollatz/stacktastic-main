@@ -1,5 +1,5 @@
-import type { Handle } from '@sveltejs/kit';
-import { getSecurityHeaders } from '$lib/server/security';
+import type { Handle } from "@sveltejs/kit";
+import { getSecurityHeaders } from "$lib/server/security";
 
 export const handle: Handle = async ({ event, resolve }) => {
   // Add security headers to all responses

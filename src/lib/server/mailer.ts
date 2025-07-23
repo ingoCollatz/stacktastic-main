@@ -7,7 +7,11 @@ type ContactFormInput = {
   message: string;
 };
 
-export async function sendContactEmail({ name, email, message }: ContactFormInput) {
+export async function sendContactEmail({
+  name,
+  email,
+  message,
+}: ContactFormInput) {
   const MAIL_SECURE = env.MAIL_SECURE;
   const MAIL_HOST = env.MAIL_HOST;
   const MAIL_PORT = env.MAIL_PORT;
@@ -15,7 +19,13 @@ export async function sendContactEmail({ name, email, message }: ContactFormInpu
   const MAIL_PASS = env.MAIL_PASS;
   const CONTACT_RECEIVER = env.CONTACT_RECEIVER;
 
-  if (!MAIL_HOST || !MAIL_PORT || !MAIL_USER || !MAIL_PASS || !CONTACT_RECEIVER) {
+  if (
+    !MAIL_HOST ||
+    !MAIL_PORT ||
+    !MAIL_USER ||
+    !MAIL_PASS ||
+    !CONTACT_RECEIVER
+  ) {
     throw new Error("Missing required mail environment variables");
   }
 
