@@ -16,7 +16,7 @@ This document outlines the security measures implemented in the contact form and
 
 - **Contact Form**: 3 submissions per 10 minutes per IP
 - **Global Rate Limit**: 10 requests per minute per IP
-- **Upstash Redis**: Backend for distributed rate limiting
+- **Local Redis**: Backend for distributed rate limiting (Docker container)
 - **Graceful Degradation**: Falls back safely if Redis is unavailable
 
 ### 3. CAPTCHA Protection
