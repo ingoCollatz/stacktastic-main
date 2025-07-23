@@ -46,6 +46,39 @@ CONTACT_RECEIVER=staging@stacktastic.dev
 IMAGE_TAG=staging
 ```
 
+## GitHub Actions Secrets
+
+If using the automated deployment workflow (`.github/workflows/deploy.yml`), configure these secrets in your GitHub repository settings:
+
+### Required Secrets
+
+```bash
+# Server Configuration
+SERVER_HOST=your-server-ip-or-domain
+SERVER_USER=your-ssh-username
+SERVER_SSH_KEY=your-private-ssh-key
+
+# Email Configuration
+CONTACT_RECEIVER=info@stacktastic.dev
+MAIL_HOST=mail.gandi.net
+MAIL_PORT=587
+MAIL_SECURE=false
+MAIL_USER=info@stacktastic.dev  
+MAIL_PASS=your-email-password
+
+# cap.js CAPTCHA Configuration
+CAPTCHA_SECRET=your-cap-server-secret
+VITE_CAPTCHA_SECRET=your-cap-server-secret
+
+# Security Configuration (Optional)
+CSRF_SECRET=your-csrf-secret-key-here
+
+# Redis Configuration (Optional)
+REDIS_URL=redis://localhost:6379
+```
+
+**To add secrets:** Go to GitHub → Your Repository → Settings → Secrets and variables → Actions → New repository secret
+
 ## Deployment Options
 
 ### Option 1: With Built-in Redis (Recommended)

@@ -45,14 +45,20 @@ jobs:
             gunzip -f image.tar.gz
             docker load < image.tar
 
-            API_KEY_FRIENDLY_CAPTCHA=${{ secrets.API_KEY_FRIENDLY_CAPTCHA }} \
+            # Email configuration
             CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
             MAIL_HOST=${{ secrets.MAIL_HOST }} \
             MAIL_PORT=${{ secrets.MAIL_PORT }} \
+            MAIL_SECURE=${{ secrets.MAIL_SECURE }} \
             MAIL_USER=${{ secrets.MAIL_USER }} \
             MAIL_PASS=${{ secrets.MAIL_PASS }} \
-            FRIENDLY_CAPTCHA_SECRET=${{ secrets.FRIENDLY_CAPTCHA_SECRET }} \
+            # cap.js CAPTCHA configuration
             CAPTCHA_SECRET=${{ secrets.CAPTCHA_SECRET }} \
+            VITE_CAPTCHA_SECRET=${{ secrets.VITE_CAPTCHA_SECRET }} \
+            # Security configuration
+            CSRF_SECRET=${{ secrets.CSRF_SECRET }} \
+            # Redis rate limiting (optional)
+            REDIS_URL=${{ secrets.REDIS_URL }} \
             IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
 
             rm -f image.tar
