@@ -7,6 +7,7 @@ RUN npm ci
 
 COPY . .
 
+RUN npm run prepare
 RUN npm run build
 
 EXPOSE 3000
