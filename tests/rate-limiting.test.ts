@@ -1,6 +1,6 @@
 /**
  * Rate Limiting Tests
- * Tests for rate limiting functionality without Redis dependency
+ * Tests for in-memory rate limiting functionality
  */
 
 import { describe, it, expect } from "vitest";
@@ -53,7 +53,7 @@ describe("Rate Limiting Logic", () => {
       expect(now - windowStart).toBe(windowMs);
     });
 
-    it("should generate correct Redis keys", () => {
+    it("should generate correct memory keys", () => {
       const keyPrefix = "contact_rate";
       const identifier = "192.168.1.1";
       const expectedKey = `${keyPrefix}:${identifier}`;
@@ -71,7 +71,7 @@ describe("Rate Limiting Logic", () => {
 
   describe("Error Handling Logic", () => {
     it("should have graceful degradation behavior", () => {
-      // Test the logic for when Redis is unavailable
+      // Test the logic for when rate limiting is at limit
       const defaultResponse = {
         success: true,
         limit: 3,
@@ -79,13 +79,13 @@ describe("Rate Limiting Logic", () => {
         reset: expect.any(Date),
       };
 
-      // This represents what should happen when Redis fails
+      // This represents what should happen when within limits
       expect(defaultResponse.success).toBe(true);
       expect(defaultResponse.remaining).toBe(defaultResponse.limit);
     });
 
     it("should handle malformed data gracefully", () => {
-      // Test handling of unexpected Redis responses
+      // Test handling of unexpected data
       const invalidCount = "not-a-number";
       const fallbackCount = 0;
 

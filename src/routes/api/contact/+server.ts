@@ -2,7 +2,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { verifyCaptcha } from "$lib/server/captcha";
 import { sendContactEmail } from "$lib/server/mailer";
 import { sanitizeInput } from "$lib/server/sanitization";
-import { checkRateLimit } from "$lib/server/local-redis-ratelimit";
+import { checkRateLimit } from "$lib/server/ratelimit";
 import { verifyCSRFToken } from "$lib/server/csrf";
 
 import { env } from "$env/dynamic/private";

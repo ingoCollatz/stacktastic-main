@@ -1,21 +1,6 @@
 services:
-  # Optional Redis service for rate limiting
-  # Remove this section if you're running Redis separately
-  redis:
-    image: redis:7-alpine
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_data:/data
-    networks:
-      - web
-    # Uncomment if you need external access to Redis
-    # ports:
-    #   - "6379:6379"
-
   stacktastic-staging:
     image: stacktastic-staging:${IMAGE_TAG}
-    depends_on:
-      - redis
     environment:
       - NODE_ENV=production
       # Email configuration
@@ -30,8 +15,6 @@ services:
       - VITE_CAPTCHA_SECRET=${VITE_CAPTCHA_SECRET}
       # Security configuration
       - CSRF_SECRET=${CSRF_SECRET}
-      # Redis rate limiting (connects to Redis service above)
-      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.stacktastic-staging.rule=Host(`staging.stacktastic.dev`)"
@@ -40,9 +23,6 @@ services:
       - "traefik.http.services.stacktastic-staging.loadbalancer.server.port=3000"
     networks:
       - web
-
-volumes:
-  redis_data:
 
 networks:
   web:

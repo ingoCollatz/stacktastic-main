@@ -6,7 +6,7 @@ My personal portfolio site built with modern web technologies.
 
 A portfolio and project showcase built with SvelteKit, TypeScript, and Tailwind CSS. Containerized with Docker and deployed on Hetzner with Traefik. Features a secure contact form with CAPTCHA protection and rate limiting.
 
-**Note**: Requires a CAPTCHA server ([cap.js](https://github.com/tiagorangel1/cap)) for the contact form functionality.
+**Note**: Requires a CAPTCHA server ([cap.js](https://github.com/tiagorangel1/cap)) for the contact form functionality. Rate limiting uses in-memory storage with automatic cleanup.
 
 ## Setup
 
@@ -22,17 +22,8 @@ MAIL_USER=your-email@domain.com
 MAIL_PASS=your-email-password
 CONTACT_RECEIVER=contact@yourdomain.com
 
-# Optional - for rate limiting
-REDIS_URL=redis://localhost:6379
-```
-
-### Quick Start with Redis (Optional)
-
-If you want rate limiting for the contact form:
-
-```bash
-# Start Redis
-docker run --name redis -d -p 6379:6379 redis:alpine
+# Security configuration  
+CSRF_SECRET=your-csrf-secret
 ```
 
 ## Development
@@ -92,7 +83,6 @@ docker run -p 3000:3000 stacktastic
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
 - **cap.js** - CAPTCHA server
-- **Redis** - Rate limiting (optional)
 - **Docker** - Containerization
 - **Traefik** - Reverse proxy
 

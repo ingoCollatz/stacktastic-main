@@ -30,9 +30,6 @@ VITE_CAPTCHA_SECRET=your-cap-server-secret
 # Security Configuration
 CSRF_SECRET=your-csrf-secret-key-here
 
-# Redis Configuration (optional - will use Docker service if not specified)
-# REDIS_URL=redis://external-redis:6379
-
 # Docker Configuration
 IMAGE_TAG=latest
 ```
@@ -72,18 +69,13 @@ VITE_CAPTCHA_SECRET=your-cap-server-secret
 
 # Security Configuration (Optional)
 CSRF_SECRET=your-csrf-secret-key-here
-
-# Redis Configuration (Optional)
-REDIS_URL=redis://localhost:6379
 ```
 
 **To add secrets:** Go to GitHub → Your Repository → Settings → Secrets and variables → Actions → New repository secret
 
-## Deployment Options
+## Deployment
 
-### Option 1: With Built-in Redis (Recommended)
-
-The docker-compose files include a Redis service for rate limiting:
+The application uses in-memory rate limiting, so no external dependencies are required:
 
 ```bash
 # Production deployment
@@ -91,24 +83,6 @@ docker-compose -f docker-compose.main.yml --env-file .env.prod up -d
 
 # Staging deployment
 docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d
-```
-
-### Option 2: With External Redis
-
-If you have Redis running elsewhere, remove the Redis service from docker-compose files and set `REDIS_URL`:
-
-1. Edit `docker-compose.main.yml` and `docker-compose.staging.yml`
-2. Remove the entire `redis:` service section
-3. Remove `depends_on: - redis` from the main service
-4. Set `REDIS_URL` in your environment file
-
-### Option 3: Without Redis (No Rate Limiting)
-
-Simply don't set `REDIS_URL` - the application will run without rate limiting:
-
-```bash
-# Remove REDIS_URL from your .env file
-# The application will log warnings but function normally
 ```
 
 ## Building Images
@@ -171,30 +145,16 @@ docker-compose -f docker-compose.main.yml ps
 
 # Check application logs
 docker-compose -f docker-compose.main.yml logs stacktastic-main
-
-# Check Redis logs (if using built-in Redis)
-docker-compose -f docker-compose.main.yml logs redis
-```
-
-## Backup Redis Data
-
-If using the built-in Redis service, backup the data volume:
-
-```bash
-# Create backup
-docker run --rm -v stacktastic-main_redis_data:/data -v $(pwd):/backup alpine tar czf /backup/redis-backup.tar.gz -C /data .
-
-# Restore backup
-docker run --rm -v stacktastic-main_redis_data:/data -v $(pwd):/backup alpine tar xzf /backup/redis-backup.tar.gz -C /data
 ```
 
 ## Troubleshooting
 
-### Rate Limiting Not Working
+### Rate Limiting Issues
 
-- Check if Redis is running: `docker-compose logs redis`
-- Verify `REDIS_URL` environment variable
-- Check application logs for Redis connection errors
+Rate limiting uses in-memory storage and should work automatically. If you're experiencing issues:
+
+- Check application logs for any rate limiting warnings
+- Verify the application is receiving the correct client IP addresses
 
 ### CAPTCHA Issues
 
@@ -227,5 +187,4 @@ docker run --rm -v stacktastic-main_redis_data:/data -v $(pwd):/backup alpine ta
 | `CAPTCHA_SECRET`      | Yes      | Secret key from cap.js server                               |
 | `VITE_CAPTCHA_SECRET` | Yes      | Public key for cap.js widget (same as CAPTCHA_SECRET)       |
 | `CSRF_SECRET`         | No       | Secret for CSRF protection (uses CAPTCHA_SECRET if not set) |
-| `REDIS_URL`           | No       | Redis connection URL (uses Docker service if not set)       |
 | `IMAGE_TAG`           | Yes      | Docker image tag for deployment                             |

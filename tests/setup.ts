@@ -5,7 +5,7 @@ vi.mock("$env/dynamic/private", () => ({
   env: {
     CAPTCHA_SECRET: "test-secret",
     CSRF_SECRET: "test-csrf-secret",
-    REDIS_URL: undefined, // Tests run without Redis
+    // Rate limiting now uses in-memory storage, no external dependencies
   },
 }));
 
