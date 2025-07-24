@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "@types/nodemailer": "^6.4.17",
-    "dompurify": "^3.2.6",
     "nodemailer": "^7.0.5",
     "simple-icons": "^15.7.0"
   }

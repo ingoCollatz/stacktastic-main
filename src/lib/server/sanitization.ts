@@ -1,41 +1,35 @@
-import DOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
+// Simple, reliable server-side sanitization without browser dependencies
+// This avoids ES module bundling issues with DOMPurify/jsdom in production
 
-// Create a DOM window for DOMPurify to use in server-side environment
-const window = new JSDOM("").window;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DOMPurifyServer = DOMPurify(window as any);
-
-// Configure DOMPurify for strict sanitization
-DOMPurifyServer.setConfig({
-  ALLOWED_TAGS: [], // No HTML tags allowed
-  ALLOWED_ATTR: [], // No attributes allowed
-  KEEP_CONTENT: true, // Keep text content
-  ALLOW_DATA_ATTR: false,
-  ALLOW_UNKNOWN_PROTOCOLS: false,
-  ALLOW_SELF_CLOSE_IN_ATTR: false,
-  SANITIZE_DOM: true,
-});
+// Simple HTML tag removal regex
+const HTML_TAG_REGEX = /<[^>]*>/g;
+const SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+const STYLE_REGEX = /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi;
 
 export function sanitizeInput(input: string): string {
   if (!input || typeof input !== "string") {
     return "";
   }
 
-  // First pass: Remove HTML/script content
-  const cleaned = DOMPurifyServer.sanitize(input);
+  // Remove script and style tags first (most dangerous)
+  let cleaned = input.replace(SCRIPT_REGEX, "").replace(STYLE_REGEX, "");
+  
+  // Remove all HTML tags but keep content
+  cleaned = cleaned.replace(HTML_TAG_REGEX, "");
 
-  // Second pass: Additional security measures
-  return (
-    cleaned
-      .trim()
-      .slice(0, 10000) // Limit length to prevent DoS
-      // eslint-disable-next-line no-control-regex
-      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "") // Remove control characters
-      .replace(/\r\n/g, "\n") // Normalize line endings
-      .replace(/\n{5,}/g, "\n\n\n\n") // Limit consecutive newlines
-      .normalize("NFC")
-  ); // Unicode normalization
+  // Remove control characters (except newlines, tabs, carriage returns)
+  // eslint-disable-next-line no-control-regex
+  cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+
+  // Normalize unicode
+  cleaned = cleaned.normalize("NFC");
+
+  // Limit length
+  if (cleaned.length > 10000) {
+    cleaned = cleaned.substring(0, 10000);
+  }
+
+  return cleaned.trim();
 }
 
 export function sanitizeEmail(email: string): string {
