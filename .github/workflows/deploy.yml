@@ -77,18 +77,16 @@ jobs:
             gunzip -f image.tar.gz
             docker load < image.tar
 
-            # Email configuration
-            CONTACT_RECEIVER=${{ secrets.CONTACT_RECEIVER }} \
-            MAIL_HOST=${{ secrets.MAIL_HOST }} \
-            MAIL_PORT=${{ secrets.MAIL_PORT }} \
-            MAIL_SECURE=${{ secrets.MAIL_SECURE }} \
-            MAIL_USER=${{ secrets.MAIL_USER }} \
-            MAIL_PASS=${{ secrets.MAIL_PASS }} \
-            # cap.js CAPTCHA configuration
-            CAPTCHA_SECRET=${{ secrets.CAPTCHA_SECRET }} \
-            VITE_CAPTCHA_SECRET=${{ secrets.VITE_CAPTCHA_SECRET }} \
-            # Security configuration
-            CSRF_SECRET=${{ secrets.CSRF_SECRET }} \
+            # Deploy with environment variables
+            CONTACT_RECEIVER="${{ secrets.CONTACT_RECEIVER }}" \
+            MAIL_HOST="${{ secrets.MAIL_HOST }}" \
+            MAIL_PORT="${{ secrets.MAIL_PORT }}" \
+            MAIL_SECURE="${{ secrets.MAIL_SECURE }}" \
+            MAIL_USER="${{ secrets.MAIL_USER }}" \
+            MAIL_PASS="${{ secrets.MAIL_PASS }}" \
+            CAPTCHA_SECRET="${{ secrets.CAPTCHA_SECRET }}" \
+            VITE_CAPTCHA_SECRET="${{ secrets.VITE_CAPTCHA_SECRET }}" \
+            CSRF_SECRET="${{ secrets.CSRF_SECRET }}" \
             IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
 
             rm -f image.tar
