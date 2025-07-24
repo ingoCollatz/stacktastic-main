@@ -12,6 +12,15 @@ const CAPTCHA_SECRET = env.CAPTCHA_SECRET;
 export const POST: RequestHandler = async ({ request, getClientAddress }) => {
   const clientIP = getClientAddress();
 
+  // Debug: Check if required environment variables are present
+  if (!CAPTCHA_SECRET) {
+    console.error("CAPTCHA_SECRET environment variable is missing");
+    return new Response(
+      JSON.stringify({ error: "Server configuration error." }),
+      { status: 500 },
+    );
+  }
+
   // Rate limiting check
   const rateLimitResult = await checkRateLimit(clientIP, "contact");
   if (!rateLimitResult.success) {
@@ -146,6 +155,9 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
     }
   } catch (error) {
     console.error("Error verifying CAPTCHA:", error);
+    console.error("CAPTCHA endpoint:", `https://capjs.stacktastic.dev/ffeb0d0477/siteverify`);
+    console.error("CAPTCHA secret length:", CAPTCHA_SECRET?.length || 0);
+    console.error("CAPTCHA token length:", captchaSolution?.length || 0);
     return new Response(
       JSON.stringify({ error: "CAPTCHA validation error." }),
       { status: 500 },
@@ -162,6 +174,13 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
     return new Response(JSON.stringify({ success: true }));
   } catch (err) {
     console.error("Email error:", err);
+    console.error("Email config check:", {
+      hasMailHost: !!env.MAIL_HOST,
+      hasMailPort: !!env.MAIL_PORT,
+      hasMailUser: !!env.MAIL_USER,
+      hasMailPass: !!env.MAIL_PASS,
+      hasContactReceiver: !!env.CONTACT_RECEIVER,
+    });
     return new Response(
       JSON.stringify({ error: "Something went wrong sending your message." }),
       { status: 500 },

@@ -13,7 +13,7 @@ export function sanitizeInput(input: string): string {
 
   // Remove script and style tags first (most dangerous)
   let cleaned = input.replace(SCRIPT_REGEX, "").replace(STYLE_REGEX, "");
-  
+
   // Remove all HTML tags but keep content
   cleaned = cleaned.replace(HTML_TAG_REGEX, "");
 
