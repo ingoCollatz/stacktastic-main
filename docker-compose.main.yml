@@ -3,32 +3,26 @@ services:
     image: stacktastic-main:${IMAGE_TAG}
     environment:
       - NODE_ENV=production
-      # Email configuration
       - CONTACT_RECEIVER=${CONTACT_RECEIVER}
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_PORT=${MAIL_PORT}
       - MAIL_SECURE=${MAIL_SECURE:-false}
       - MAIL_USER=${MAIL_USER}
       - MAIL_PASS=${MAIL_PASS}
-      # cap.js CAPTCHA configuration
       - CAPTCHA_SECRET=${CAPTCHA_SECRET}
       - VITE_CAPTCHA_SECRET=${VITE_CAPTCHA_SECRET}
-      # Security configuration
       - CSRF_SECRET=${CSRF_SECRET}
     labels:
       - "traefik.enable=true"
 
-      # Primary domain router
       - "traefik.http.routers.stacktastic-main.rule=Host(`stacktastic.dev`)"
       - "traefik.http.routers.stacktastic-main.entrypoints=websecure"
       - "traefik.http.routers.stacktastic-main.tls.certresolver=myresolver"
 
-      # Secondary www router
       - "traefik.http.routers.stacktastic-www.rule=Host(`www.stacktastic.dev`)"
       - "traefik.http.routers.stacktastic-www.entrypoints=websecure"
       - "traefik.http.routers.stacktastic-www.tls.certresolver=myresolver"
 
-      # Shared service for both
       - "traefik.http.services.stacktastic-main.loadbalancer.server.port=3000"
     networks:
       - web

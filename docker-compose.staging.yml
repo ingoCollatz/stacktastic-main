@@ -3,17 +3,14 @@ services:
     image: stacktastic-staging:${IMAGE_TAG}
     environment:
       - NODE_ENV=production
-      # Email configuration
       - CONTACT_RECEIVER=${CONTACT_RECEIVER}
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_PORT=${MAIL_PORT}
       - MAIL_SECURE=${MAIL_SECURE:-false}
       - MAIL_USER=${MAIL_USER}
       - MAIL_PASS=${MAIL_PASS}
-      # cap.js CAPTCHA configuration
       - CAPTCHA_SECRET=${CAPTCHA_SECRET}
       - VITE_CAPTCHA_SECRET=${VITE_CAPTCHA_SECRET}
-      # Security configuration
       - CSRF_SECRET=${CSRF_SECRET}
     labels:
       - "traefik.enable=true"

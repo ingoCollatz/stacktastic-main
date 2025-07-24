@@ -77,7 +77,6 @@ jobs:
             gunzip -f image.tar.gz
             docker load < image.tar
 
-            # Deploy with environment variables
             CONTACT_RECEIVER="${{ secrets.CONTACT_RECEIVER }}" \
             MAIL_HOST="${{ secrets.MAIL_HOST }}" \
             MAIL_PORT="${{ secrets.MAIL_PORT }}" \
@@ -91,11 +90,9 @@ jobs:
 
             rm -f image.tar
 
-            # Wait for services to be ready
             echo "⏳ Waiting for services to start..."
             sleep 30
 
-            # Basic health check
             if [ "${{ github.ref_name }}" = "main" ]; then
               HEALTH_URL="https://stacktastic.com"
             else
@@ -104,7 +101,6 @@ jobs:
 
             echo "🔍 Testing deployment at $HEALTH_URL"
 
-            # Test if the site is accessible
             if curl -f -s "$HEALTH_URL" > /dev/null; then
               echo "✅ Site is accessible"
             else
