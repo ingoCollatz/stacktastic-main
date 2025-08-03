@@ -28,38 +28,14 @@
         & Code Explorer
       </h1>
 
-      <!-- Enhanced description with tech stack highlights -->
+      <!-- Enhanced description -->
       <div class="max-w-3xl mx-auto mb-12">
         <p
-          class="text-lg md:text-xl leading-relaxed transition-colors duration-300 text-gray-700 dark:text-gray-300 mb-6"
+          class="text-lg md:text-xl leading-relaxed transition-colors duration-300 text-gray-700 dark:text-gray-300"
         >
           Welcome to my digital playground where I explore web technologies,
           experiment with new ideas, and share what I discover along the way
         </p>
-
-        <!-- Tech Stack Visual Pills -->
-        <div class="flex flex-wrap justify-center gap-3 mb-8">
-          <span
-            class="px-4 py-2 bg-orange-500/10 dark:bg-orange-400/20 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium border border-orange-500/20 dark:border-orange-400/30"
-          >
-            SvelteKit
-          </span>
-          <span
-            class="px-4 py-2 bg-blue-500/10 dark:bg-blue-400/20 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 dark:border-blue-400/30"
-          >
-            TypeScript
-          </span>
-          <span
-            class="px-4 py-2 bg-pink-500/10 dark:bg-pink-400/20 text-pink-600 dark:text-pink-400 rounded-full text-sm font-medium border border-pink-500/20 dark:border-pink-400/30"
-          >
-            GraphQL
-          </span>
-          <span
-            class="px-4 py-2 bg-emerald-500/10 dark:bg-emerald-400/20 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium border border-emerald-500/20 dark:border-emerald-400/30"
-          >
-            PostgreSQL
-          </span>
-        </div>
       </div>
 
       <!-- Enhanced CTA Buttons -->
