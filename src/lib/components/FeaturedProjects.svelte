@@ -143,11 +143,14 @@
       <p class="text-gray-600 dark:text-gray-400 mb-6">
         Want to follow along as I build this?
       </p>
-      <a
-        href="https://github.com/ingoCollatz/stacktastic-main"
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        on:click={() =>
+          window.open(
+            "https://github.com/ingoCollatz/stacktastic-main",
+            "_blank"
+          )}
         class="inline-flex items-center px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-200"
+        aria-label="View source code on GitHub"
       >
         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
           <path
@@ -155,7 +158,7 @@
           />
         </svg>
         View Source Code
-      </a>
+      </button>
     </div>
   </div>
 </section>
