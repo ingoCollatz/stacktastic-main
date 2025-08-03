@@ -8,7 +8,7 @@
       <h2
         class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-gray-100"
       >
-        About Me
+        My Journey
       </h2>
       <div
         class="w-24 h-1 bg-gradient-to-r from-brand-500 to-brand-600 mx-auto rounded-full"
@@ -22,9 +22,10 @@
           class="bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50"
         >
           <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-            I'm a self-taught full stack web developer with close to 3 years of
-            professional experience. I specialize in building responsive and
-            performant web applications using
+            I'm a curious developer who loves exploring the intersection of
+            design, performance, and user experience through code. With close to
+            3 years of professional experience, I specialize in crafting web
+            applications with
             <span class="font-semibold text-brand-500">SvelteKit</span>,
             <span class="font-semibold text-brand-500">TypeScript</span>,
             <span class="font-semibold text-brand-500">PostgreSQL</span>, and
@@ -33,10 +34,10 @@
           <p
             class="text-lg leading-relaxed mt-6 text-gray-600 dark:text-gray-400"
           >
-            My journey began as a career changer — without formal CS education —
-            and I've since contributed to real-world production apps, worked in
-            agile teams, and built a solid foundation in modern web
-            technologies.
+            My path started as a career changer without formal CS education,
+            driven by curiosity and a passion for building things that matter. I
+            learn by doing, experiment with new technologies, and believe the
+            best way to grow is by sharing what you discover along the way.
           </p>
         </div>
 

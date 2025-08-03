@@ -7,9 +7,9 @@
       <div
         class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/10 dark:bg-brand-400/20 rounded-full border border-brand-500/20 dark:border-brand-400/30 mb-8"
       >
-        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
         <span class="text-sm font-medium text-brand-600 dark:text-brand-400"
-          >Available for projects</span
+          >Building & experimenting</span
         >
       </div>
 
@@ -22,10 +22,10 @@
         <span
           class="bg-gradient-to-r from-brand-500 to-brand-600 bg-clip-text text-transparent"
         >
-          Web Developer
+          Digital Craftsperson
         </span>
         <br class="hidden sm:block" />
-        & Technologist
+        & Code Explorer
       </h1>
 
       <!-- Enhanced description with tech stack highlights -->
@@ -33,8 +33,8 @@
         <p
           class="text-lg md:text-xl leading-relaxed transition-colors duration-300 text-gray-700 dark:text-gray-300 mb-6"
         >
-          I build modern, performant web applications with cutting-edge
-          technologies
+          Welcome to my digital playground where I explore web technologies,
+          experiment with new ideas, and share what I discover along the way
         </p>
 
         <!-- Tech Stack Visual Pills -->
@@ -68,7 +68,7 @@
           href="#projects"
           class="group inline-flex items-center px-8 py-4 bg-brand-500 text-white rounded-lg font-semibold hover:bg-brand-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
         >
-          View My Work
+          Explore My Lab
           <svg
             class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
             fill="none"
@@ -87,7 +87,7 @@
           href="#contact"
           class="group inline-flex items-center px-8 py-4 border-2 border-brand-500 text-brand-500 dark:text-brand-400 dark:border-brand-400 rounded-lg font-semibold hover:bg-brand-500 hover:text-white dark:hover:bg-brand-400 dark:hover:text-gray-900 transform hover:scale-105 transition-all duration-200"
         >
-          Get In Touch
+          Let's Connect
           <svg
             class="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform duration-200"
             fill="none"
@@ -109,32 +109,32 @@
         class="mt-12 pt-8 border-t border-gray-200/50 dark:border-gray-700/50"
       >
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-          Explore my work
+          What you'll find here
         </p>
         <div class="flex flex-wrap justify-center gap-6">
           <a
             href="#projects"
             class="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 transition-colors duration-200 font-medium hover:underline decoration-2 underline-offset-4"
           >
-            Projects
+            Experiments
           </a>
           <a
             href="#stack"
             class="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 transition-colors duration-200 font-medium hover:underline decoration-2 underline-offset-4"
           >
-            Tech Stack
+            Tech Playground
           </a>
           <a
             href="#about"
             class="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 transition-colors duration-200 font-medium hover:underline decoration-2 underline-offset-4"
           >
-            About
+            My Journey
           </a>
           <a
             href="#contact"
             class="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 transition-colors duration-200 font-medium hover:underline decoration-2 underline-offset-4"
           >
-            Contact
+            Connect
           </a>
         </div>
       </div>

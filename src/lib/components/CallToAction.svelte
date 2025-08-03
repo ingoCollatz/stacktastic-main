@@ -6,22 +6,23 @@
       <h2
         class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-gray-100"
       >
-        Ready to Build Something Amazing?
+        Let's Build Something Together
       </h2>
       <p
         class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
       >
-        Let's collaborate on your next project. I'm always excited to work on
-        innovative solutions and bring ideas to life.
+        Got an interesting idea or want to collaborate on something
+        experimental? I'm always curious about new challenges and love working
+        with fellow creators.
       </p>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+    <div class="flex justify-center">
       <a
         href="#contact"
         class="inline-flex items-center px-8 py-4 bg-brand-500 text-white rounded-lg font-semibold hover:bg-brand-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
       >
-        Start a Project
+        Let's Chat
         <svg
           class="ml-2 w-5 h-5"
           fill="none"
@@ -35,13 +36,6 @@
             d="M17 8l4 4m0 0l-4 4m4-4H3"
           />
         </svg>
-      </a>
-
-      <a
-        href="#projects"
-        class="inline-flex items-center px-8 py-4 border-2 border-brand-500 text-brand-500 rounded-lg font-semibold hover:bg-brand-500 hover:text-white transform hover:scale-105 transition-all duration-200"
-      >
-        View My Work
       </a>
     </div>
 

@@ -53,13 +53,13 @@
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-3xl md:text-4xl font-bold mb-6 text-brand-500">
-        My Tech Stack
+        My Toolkit
       </h2>
       <div
         class="w-24 h-1 bg-gradient-to-r from-brand-500 to-brand-600 mx-auto rounded-full mb-4"
       ></div>
       <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        Technologies and tools I use to bring ideas to life
+        Tools and technologies I love experimenting with
       </p>
     </div>
 
