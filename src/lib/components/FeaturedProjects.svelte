@@ -112,7 +112,7 @@
               Real Projects
             </h4>
             <p class="text-sm text-gray-600 dark:text-gray-400">
-              Actual work I'm building, not placeholder content
+              Meaningful work and learning experiences to share
             </p>
           </div>
         </div>

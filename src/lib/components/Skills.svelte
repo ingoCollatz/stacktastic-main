@@ -15,34 +15,49 @@
   interface Skill {
     name: string;
     component: ComponentType;
+    url: string;
   }
 
   const skills: Skill[] = [
     {
       name: "SvelteKit",
       component: Svelte,
+      url: "https://kit.svelte.dev/",
     },
     {
       name: "TypeScript",
       component: TypeScript,
+      url: "https://www.typescriptlang.org/",
     },
-    { name: "GraphQL", component: GraphQL },
+    {
+      name: "GraphQL",
+      component: GraphQL,
+      url: "https://graphql.org/",
+    },
     {
       name: "PostgreSQL",
       component: PostgreSQL,
+      url: "https://www.postgresql.org/",
     },
     {
       name: "Tailwind CSS",
       component: TailwindCSS,
+      url: "https://tailwindcss.com/",
     },
     {
       name: "Node.js",
       component: NodeJS,
+      url: "https://nodejs.org/",
     },
-    { name: "Docker", component: Docker },
+    {
+      name: "Docker",
+      component: Docker,
+      url: "https://www.docker.com/",
+    },
     {
       name: "GitHub Actions",
       component: GitHub,
+      url: "https://github.com/features/actions",
     },
   ];
 
@@ -65,11 +80,12 @@
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
       {#each skills as skill, index}
-        <div
-          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
-          role="button"
-          tabindex="0"
-          aria-label="Skill: {skill.name}"
+        <a
+          href={skill.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 block"
+          aria-label="Learn more about {skill.name}"
           on:mouseenter={() => (hoveredSkill = skill.name)}
           on:mouseleave={() => (hoveredSkill = null)}
           on:focus={() => (hoveredSkill = skill.name)}
@@ -108,7 +124,7 @@
               ></div>
             </div>
           </div>
-        </div>
+        </a>
       {/each}
     </div>
 
@@ -123,9 +139,9 @@
         <div
           class="flex justify-center space-x-4 text-sm text-gray-600 dark:text-gray-400"
         >
-          <span>📚 Currently learning: Rust</span>
+          <span>📚 Currently learning: ESP32 & C/C++</span>
           <span>•</span>
-          <span>🎯 Next up: Three.js</span>
+          <span>🔧 Exploring: Embedded programming</span>
         </div>
       </div>
     </div>
