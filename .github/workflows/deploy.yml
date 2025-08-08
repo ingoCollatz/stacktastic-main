@@ -94,7 +94,7 @@ jobs:
             sleep 30
 
             if [ "${{ github.ref_name }}" = "main" ]; then
-              HEALTH_URL="https://stacktastic.com"
+              HEALTH_URL="https://stacktastic.dev"
             else
               HEALTH_URL="https://staging.stacktastic.dev"
             fi

@@ -42,21 +42,13 @@
         </div>
 
         <!-- Key Stats -->
-        <div class="grid grid-cols-3 gap-4 mt-8">
+        <div class="grid grid-cols-2 gap-4 mt-8">
           <div
             class="text-center bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50"
           >
             <div class="text-2xl font-bold text-brand-500">3+</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">
               Years Experience
-            </div>
-          </div>
-          <div
-            class="text-center bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50"
-          >
-            <div class="text-2xl font-bold text-brand-500">10+</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">
-              Projects Built
             </div>
           </div>
           <div

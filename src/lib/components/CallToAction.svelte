@@ -40,18 +40,12 @@
     </div>
 
     <!-- Additional Info -->
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
       <div
         class="bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-md"
       >
         <div class="text-3xl font-bold mb-2 text-brand-500">3+</div>
         <div class="text-gray-600 dark:text-gray-400">Years of Experience</div>
-      </div>
-      <div
-        class="bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-md"
-      >
-        <div class="text-3xl font-bold mb-2 text-brand-500">50+</div>
-        <div class="text-gray-600 dark:text-gray-400">Projects Completed</div>
       </div>
       <div
         class="bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-md"
