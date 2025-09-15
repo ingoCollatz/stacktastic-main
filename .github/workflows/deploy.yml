@@ -65,6 +65,9 @@ jobs:
           source: "image.tar.gz,docker-compose.${{ github.ref_name }}.yml"
           target: "~/stacktastic/${{ github.ref_name }}/"
 
+      - name: debug-ssh-key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -c 50
+
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.0
         with:
