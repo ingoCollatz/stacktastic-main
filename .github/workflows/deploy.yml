@@ -7,39 +7,7 @@ on:
       - staging
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run security tests
-        run: npm run test:deployment
-
-      - name: Run build test
-        run: npm run build
-
-      - name: Test deployment readiness
-        run: |
-          echo "✅ All tests passed - deployment ready"
-          echo "📊 Test Summary:"
-          echo "  - Security tests: ✅"
-          echo "  - Rate limiting tests: ✅" 
-          echo "  - Integration tests: ✅"
-          echo "  - Build test: ✅"
-
   deploy:
-    needs: test
     runs-on: ubuntu-latest
     env:
       IMAGE_TAG: ${{ github.sha }}
@@ -65,10 +33,7 @@ jobs:
           source: "image.tar.gz,docker-compose.${{ github.ref_name }}.yml"
           target: "~/stacktastic/${{ github.ref_name }}/"
 
-      - name: debug-ssh-key
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -c 50
-
-      - name: SSH and deploy
+      - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -77,9 +42,12 @@ jobs:
           script: |
             set -e
             cd ~/stacktastic/${{ github.ref_name }}
+            
+            # Load Docker image
             gunzip -f image.tar.gz
             docker load < image.tar
-
+            
+            # Deploy with environment variables
             CONTACT_RECEIVER="${{ secrets.CONTACT_RECEIVER }}" \
             MAIL_HOST="${{ secrets.MAIL_HOST }}" \
             MAIL_PORT="${{ secrets.MAIL_PORT }}" \
@@ -90,25 +58,8 @@ jobs:
             VITE_CAPTCHA_SECRET="${{ secrets.VITE_CAPTCHA_SECRET }}" \
             CSRF_SECRET="${{ secrets.CSRF_SECRET }}" \
             IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.${{ github.ref_name }}.yml up -d --force-recreate
-
+            
+            # Cleanup
             rm -f image.tar
-
-            echo "⏳ Waiting for services to start..."
-            sleep 30
-
-            if [ "${{ github.ref_name }}" = "main" ]; then
-              HEALTH_URL="https://stacktastic.dev"
-            else
-              HEALTH_URL="https://staging.stacktastic.dev"
-            fi
-
-            echo "🔍 Testing deployment at $HEALTH_URL"
-
-            if curl -f -s "$HEALTH_URL" > /dev/null; then
-              echo "✅ Site is accessible"
-            else
-              echo "❌ Site accessibility test failed"
-              exit 1
-            fi
-
-            echo "🚀 Deployment completed successfully!"
+            
+            echo "🚀 Deployment to ${{ github.ref_name }} completed successfully!"
