@@ -72,13 +72,13 @@
       </p>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
+    <div class="flex flex-wrap justify-center gap-6">
       {#each skills as skill, index}
         <a
           href={skill.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 block w-40 h-40"
+          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 block md:w-60 w-40 h-40"
           aria-label="Learn more about {skill.name}"
           on:mouseenter={() => (hoveredSkill = skill.name)}
           on:mouseleave={() => (hoveredSkill = null)}
