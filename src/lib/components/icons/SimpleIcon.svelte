@@ -16,7 +16,6 @@
   const iconMap: Record<string, any> = {
     svelte: simpleIcons.siSvelte,
     typescript: simpleIcons.siTypescript,
-    graphql: simpleIcons.siGraphql,
     postgresql: simpleIcons.siPostgresql,
     tailwindcss: simpleIcons.siTailwindcss,
     nodedotjs: simpleIcons.siNodedotjs,

@@ -1,6 +1,5 @@
 export { default as Svelte } from "./Svelte.svelte";
 export { default as TypeScript } from "./TypeScript.svelte";
-export { default as GraphQL } from "./GraphQL.svelte";
 export { default as PostgreSQL } from "./PostgreSQL.svelte";
 export { default as TailwindCSS } from "./TailwindCSS.svelte";
 export { default as NodeJS } from "./NodeJS.svelte";

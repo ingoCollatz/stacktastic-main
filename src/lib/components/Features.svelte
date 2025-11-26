@@ -17,7 +17,7 @@
       <div class="p-6 border rounded-lg shadow-sm">
         <h3 class="font-semibold text-xl mb-2">API-First Thinking</h3>
         <p class="text-sm">
-          Whether REST or GraphQL, I focus on robust backend contracts that
+          I focus on robust REST APIs and backend contracts that
           scale and are easy to work with — both for humans and machines.
         </p>
       </div>

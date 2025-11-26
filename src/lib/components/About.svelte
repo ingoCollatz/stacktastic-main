@@ -27,9 +27,8 @@
             3 years of professional experience, I specialize in crafting web
             applications with
             <span class="font-semibold text-brand-500">SvelteKit</span>,
-            <span class="font-semibold text-brand-500">TypeScript</span>,
-            <span class="font-semibold text-brand-500">PostgreSQL</span>, and
-            <span class="font-semibold text-brand-500">GraphQL</span>.
+            <span class="font-semibold text-brand-500">TypeScript</span>, and
+            <span class="font-semibold text-brand-500">PostgreSQL</span>.
           </p>
           <p
             class="text-lg leading-relaxed mt-6 text-gray-600 dark:text-gray-400"

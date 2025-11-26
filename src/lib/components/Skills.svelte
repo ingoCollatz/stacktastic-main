@@ -3,13 +3,12 @@
   import {
     Svelte,
     TypeScript,
-    GraphQL,
     PostgreSQL,
     TailwindCSS,
     NodeJS,
     Docker,
     GitHub,
-  } from "./icons";
+  } from "$lib/components/icons";
   import type { ComponentType } from "svelte";
 
   interface Skill {
@@ -28,11 +27,6 @@
       name: "TypeScript",
       component: TypeScript,
       url: "https://www.typescriptlang.org/",
-    },
-    {
-      name: "GraphQL",
-      component: GraphQL,
-      url: "https://graphql.org/",
     },
     {
       name: "PostgreSQL",
@@ -78,13 +72,13 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+    <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
       {#each skills as skill, index}
         <a
           href={skill.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 block"
+          class="group relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition-all duration-300 cursor-pointer transform hover:-translate-y-2 block w-40 h-40"
           aria-label="Learn more about {skill.name}"
           on:mouseenter={() => (hoveredSkill = skill.name)}
           on:mouseleave={() => (hoveredSkill = null)}

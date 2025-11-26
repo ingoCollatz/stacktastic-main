@@ -8,11 +8,11 @@
       slug: "portfolio-with-sveltekit",
     },
     {
-      title: "Why I Chose PostgreSQL + GraphQL",
+      title: "Building Modern Web Apps with PostgreSQL",
       excerpt:
-        "A quick write-up on my tech choices and how they simplified my backend.",
+        "A quick write-up on my tech choices and database design patterns.",
       date: "2025-06-15",
-      slug: "postgresql-graphql-stack",
+      slug: "postgresql-modern-apps",
     },
   ];
 </script>
